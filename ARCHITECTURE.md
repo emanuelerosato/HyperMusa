@@ -100,6 +100,109 @@ Vedi [HARDWARE.md](HARDWARE.md) per dettagli completi *(in sviluppo)*.
 
 ---
 
+## ⚡ Power Management Layer
+
+### Componenti
+
+```
+┌────────────────────────────────────────────────┐
+│        POWER MANAGEMENT ARCHITECTURE           │
+│                                                │
+│  ┌──────────────────────────────────────┐     │
+│  │         Hardware Layer                │     │
+│  │                                       │     │
+│  │  OBD2 Pin 15 ──► Relay Module ──►    │     │
+│  │                  (5V 1ch)   GPIO17    │     │
+│  │                      ▲                │     │
+│  │  Batteria 12V ──► DC-DC 5V ─────┘    │     │
+│  └──────────────────────────────────────┘     │
+│                       │                        │
+│  ┌────────────────────▼──────────────────┐    │
+│  │         Kernel Layer (Linux)          │    │
+│  │                                       │    │
+│  │  ┌────────────────────────────┐      │    │
+│  │  │  ACPI S3 Suspend-to-RAM    │      │    │
+│  │  │  GPIO Interrupt Handler    │      │    │
+│  │  │  Device Power Management   │      │    │
+│  │  └────────────────────────────┘      │    │
+│  └──────────────────────────────────────┘    │
+│                       │                        │
+│  ┌────────────────────▼──────────────────┐    │
+│  │      Daemon Layer (systemd)           │    │
+│  │                                       │    │
+│  │  hypermusa-power.service              │    │
+│  │  ├─ Monitor GPIO 17 (1Hz polling)     │    │
+│  │  ├─ Battery voltage checker (5min)    │    │
+│  │  ├─ Suspend trigger (60s timeout)     │    │
+│  │  └─ Wake callback handler             │    │
+│  └──────────────────────────────────────┘    │
+│                       │                        │
+│  ┌────────────────────▼──────────────────┐    │
+│  │       Application Layer               │    │
+│  │                                       │    │
+│  │  HyperMusa UI (React)                 │    │
+│  │  ├─ Receives stop signal pre-suspend  │    │
+│  │  ├─ Saves state to localStorage       │    │
+│  │  └─ Restarts on wake (instant)        │    │
+│  └──────────────────────────────────────┘    │
+└────────────────────────────────────────────────┘
+```
+
+### Stati e Transizioni
+
+| Stato | Descrizione | Consumo | Durata Tipica |
+|-------|-------------|---------|---------------|
+| **BOOT** | Cold start, primo avvio | ~25W | 35-40s |
+| **ACTIVE** | Sistema operativo, UI attiva | ~23W | Durante guida |
+| **PRE-SUSPEND** | Countdown, salvataggio stato | ~15W | 60s fissi |
+| **SUSPEND (S3)** | RAM powered, CPU off | ~0.5W | Ore/giorni |
+| **WAKE** | Resume da RAM | ~25W | 3-5s |
+| **SHUTDOWN** | Emergenza batteria bassa | 0W | Definitivo |
+
+### Integrazione con CAN-Bus
+
+Il power management si integra con il layer CAN per:
+
+1. **Lettura voltaggio batteria**: PID 0x42 (OBD-II standard)
+2. **Stato chiave alternativo**: Query stato ECU via CAN (fallback se relay fallisce)
+3. **Log energia**: Registra consumo corrente in CAN logs per analisi
+
+Esempio pseudo-code integrazione:
+```javascript
+class PowerManager {
+  get_battery_voltage() {
+    // Query CAN-Bus per voltaggio batteria
+    response = can_bus.query(pid=0x42)
+    voltage = (response[0] * 256 + response[1]) / 1000
+    return voltage
+  }
+
+  check_key_state_fallback() {
+    // Se relay fallisce, usa stato ECU da CAN
+    ecu_status = can_bus.query(pid=0x01)  // DTC status
+    return ecu_status['engine_running']
+  }
+}
+```
+
+### Autonomia Batteria
+
+**Configurazione HyperMusa**:
+- Raspberry Pi 5 4GB: ~15W
+- Display 10.1" IPS: ~8W
+- MCP2515 + GPS: ~0.6W
+- **Totale attivo**: ~23W (1.87A @ 12V)
+- **Totale standby**: ~0.35W (0.034A @ 12V)
+
+**Batteria Lancia Musa 60Ah**:
+- Autonomia sistema attivo (motore spento): ~16 ore
+- Autonomia standby: ~15 giorni (con parassiti auto)
+- Protezione: Shutdown automatico a 11.5V
+
+Vedi [docs/power-management.md](docs/power-management.md) per dettagli completi.
+
+---
+
 ## 🔄 Flusso Dati
 
 ### 1. Lettura CAN-Bus
