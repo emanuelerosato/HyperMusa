@@ -1008,6 +1008,630 @@ Batteria 12V (o OBD2 pin 16)
 
 ---
 
+## 🔌 10. Cavetteria Dettagliata e Collegamenti
+
+### Cavo OBD2 → MCP2515 (COMPONENTE CRITICO)
+
+#### Opzione A: Splitter OBD2 a Y (CONSIGLIATA - Non Invasiva)
+
+**Descrizione**: Cavo splitter con 1 ingresso OBD2 maschio + 2 uscite OBD2 femmina
+
+**Vantaggi**:
+- ✅ Porta OBD2 rimane accessibile per diagnosi originale
+- ✅ Zero modifiche permanenti
+- ✅ Totalmente reversibile
+
+**Schema**:
+```
+Porta OBD2 Musa ──► [Splitter Y] ──┬──► Uscita 1: Diagnosi/Scanner normale
+                                    └──► Uscita 2: Cavo breakout → MCP2515
+```
+
+**Prezzo**: ~12-18€
+
+**Dove**: Amazon.it (cerca "OBD2 splitter Y cable 16 pin")
+
+**Esempio**: FIXD OBD2 Splitter, Carista Y-Cable
+
+---
+
+#### Opzione B: Cavo OBD2 Breakout con Pin Esposti (DIY)
+
+**Descrizione**: Cavo OBD2 maschio con singoli fili etichettati per ogni pin
+
+**Pin necessari da connettere**:
+- **Pin 6** → CAN-H (cavo giallo/arancione) → MCP2515 CANH
+- **Pin 14** → CAN-L (cavo verde/blu) → MCP2515 CANL
+- **Pin 4 o 5** → GND (cavo nero) → MCP2515 GND
+- **Pin 16** → +12V (opzionale, se alimenti da OBD2)
+
+**Vantaggi**: Accesso diretto ai pin, più flessibile
+
+**Svantaggi**: Porta OBD2 occupata (serve splitter aggiuntivo)
+
+**Prezzo**: ~8-12€
+
+**Dove**: Amazon.it (cerca "OBD2 breakout cable" o "OBD2 to wire harness")
+
+---
+
+#### Schema Collegamento OBD2 → MCP2515
+
+```
+┌─────────────────────────────────────────────────┐
+│      CONNETTORE OBD2 (Vista Frontale)          │
+│  ┌─────────────────────────────────────────┐   │
+│  │     8  7  6  5  4  3  2  1              │   │
+│  │    16 15 14 13 12 11 10  9              │   │
+│  └─────────────────────────────────────────┘   │
+│                                                 │
+│  Pin 4/5: GND ──────────────────┐              │
+│  Pin 6: CAN-H ────────┐         │              │
+│  Pin 14: CAN-L ──┐    │         │              │
+│  Pin 16: +12V    │    │         │              │
+└──────────────────┼────┼─────────┼──────────────┘
+                   │    │         │
+                   │    │         │
+          ┌────────▼────▼─────────▼────────┐
+          │     MCP2515 CAN Module         │
+          │  ┌──────────────────┐          │
+          │  │ CANH ← Pin 6     │          │
+          │  │ CANL ← Pin 14    │          │
+          │  │ GND  ← Pin 4/5   │          │
+          │  └──────────────────┘          │
+          └────────────────────────────────┘
+```
+
+**⚠️ IMPORTANTE**:
+- **NON** collegare il pin 16 (+12V) al MCP2515 se alimenti il Raspberry Pi separatamente!
+- Il MCP2515 si alimenta dal Raspberry Pi (pin 5V GPIO)
+- Verifica con multimetro prima di collegare: CAN-H ~2.5-3.5V, CAN-L ~1.5-2.5V (con chiave su MAR)
+
+---
+
+### Cavi Alimentazione 12V Auto → Raspberry Pi
+
+#### Opzione A: Adattatore Accendisigari USB-C (CONSIGLIATA)
+
+**Descrizione**: Convertitore DC-DC plug & play per accendisigari/12V
+
+**Vantaggi**: Zero modifiche impianto elettrico, installazione 10 secondi
+
+**Specifiche**: Input 12-24V DC, Output 5V 5A USB-C PD
+
+**Prezzo**: ~15-25€ (già inserito in lista principale)
+
+**Dove**: Amazon.it (cerca "adattatore auto USB-C 5A PD")
+
+---
+
+#### Opzione B: Collegamento Diretto Fusibili (Avanzata)
+
+**Descrizione**: Cavo Add-a-Circuit per collegare a scatola fusibili
+
+**Vantaggi**: Installazione pulita, nascosta, si accende con quadro
+
+**Componenti**:
+- Add-a-Circuit blade fuse holder: ~8€
+- Fusibile 5A aggiuntivo: ~2€
+- Convertitore DC-DC 12V→5V 5A isolato: ~12€
+- Cavi AWG 18 rosso/nero: ~5€
+
+**Prezzo totale**: ~27€
+
+**Dove**: Amazon.it / Brico
+
+**⚠️ Richiede**: Conoscenza impianti elettrici, multimetro, schema fusibili Musa
+
+**Raccomandazione**: Usa Opzione A per test, Opzione B per installazione definitiva.
+
+---
+
+### Cavi Display
+
+| Tipo Display | Cavi Necessari | Prezzo | Note |
+|--------------|----------------|--------|------|
+| 7" Raspberry Pi ufficiale | Cavo ribbon DSI (incluso) + USB micro power | 0€ | Plug & play |
+| 10.1" HDMI Touch | Mini/Micro HDMI → HDMI (1m) + USB-A to USB-B touch | ~12€ | Verifica tipo HDMI su Pi |
+| 12.3" Bar Automotive | HDMI standard (1m) + Controller board USB power | ~15€ | Potrebbe includere cavi |
+
+**Lunghezza raccomandata**: 1-1.5m per passaggio cavi pulito da cruscotto a vano sotto volante.
+
+---
+
+### Kit Gestione Cavi (NECESSARIO!)
+
+| Componente | Quantità | Prezzo | Dove |
+|------------|----------|--------|------|
+| Guaina spiralata 10mm (nero) | 3 metri | ~8€ | Amazon.it |
+| Fascette nylon 15cm | 50 pezzi | ~3€ | Già inserito |
+| Clips adesive cavi (Ø6-10mm) | 20 pezzi | ~5€ | Amazon.it / Brico |
+| Velcro adesivo industriale 50mm | 1 metro | ~8€ | Già inserito |
+| Nastro isolante nero | 1 rotolo | ~3€ | Brico |
+| **TOTALE KIT CAVI** | | **~27€** | |
+
+---
+
+### Lista Completa Cavi - Riepilogo
+
+✅ **Cavi da acquistare** (non inclusi nei componenti principali):
+
+- ☑ Splitter OBD2 a Y (12-18€) - **PRIORITÀ ALTA**
+- ☑ Cavo Mini/Micro HDMI → HDMI 1m (8€) - secondo display scelto
+- ☑ Cavo USB-A to USB per touch screen 1m (5€) - se display touch
+- ☑ Guaina spiralata 3m (8€)
+- ☑ Clips adesive per cavi 20pz (5€)
+- ☑ Nastro isolante (3€)
+- ☑ (Opzionale) Add-a-Circuit per fusibili (8€) - installazione permanente
+
+**TOTALE CAVI**: ~49-55€ (da aggiungere al budget configurazione)
+
+---
+
+## 🛡️ 11. Installazione Non Invasiva e Reversibilità
+
+### Filosofia del Progetto HyperMusa
+
+**HyperMusa è progettato per essere 100% REVERSIBILE senza lasciare tracce.**
+
+#### ✅ Cosa NON Faremo MAI
+
+- ❌ Tagliare cavi originali della Musa
+- ❌ Forare cruscotto o plastiche
+- ❌ Modificare centraline o Body Computer
+- ❌ Scrivere dati sul CAN-Bus (solo LETTURA)
+- ❌ Bypassare sistemi di sicurezza
+- ❌ Sostituire il quadro strumenti originale
+
+#### ✅ Cosa Faremo
+
+- ✅ Collegamento OBD2 con splitter (plug & play)
+- ✅ Alimentazione da accendisigari (removibile)
+- ✅ Display montato con velcro o biadesivo removibile
+- ✅ Solo LETTURA dati CAN-Bus (come scanner diagnosi)
+- ✅ Quadro originale rimane completamente funzionante
+
+---
+
+### Funzionamento in Parallelo
+
+```
+┌────────────────────────────────────────────────┐
+│             LANCIA MUSA 2009                   │
+│                                                │
+│  ┌──────────────────────────────────────┐     │
+│  │    Quadro Strumenti Originale        │     │
+│  │      ✅ Funziona al 100%             │     │
+│  │      ✅ Sempre prioritario           │     │
+│  │      ✅ Mai disattivato              │     │
+│  └──────────────────────────────────────┘     │
+│                  ▲                             │
+│                  │ CAN-Bus                     │
+│                  │                             │
+│     ┌────────────┴──────────┐                 │
+│     │    Body Computer      │                 │
+│     │    (ECU Centrale)     │                 │
+│     └────────────┬───────────┘                │
+│                  │                             │
+│                  ├──► Porta OBD2               │
+│                  │        │                    │
+└──────────────────┼────────┼────────────────────┘
+                   │        │
+                   │   ┌────▼─────┐
+                   │   │ Splitter │
+                   │   └────┬─────┘
+                   │        │
+                   │   ┌────▼──────────────┐
+                   │   │    MCP2515        │
+                   │   │  (SOLO LETTURA)   │
+                   │   └────┬──────────────┘
+                   │        │
+                   │   ┌────▼──────────────┐
+                   │   │  Raspberry Pi     │
+                   │   │  + HyperMusa      │
+                   │   └────┬──────────────┘
+                   │        │
+                   │   ┌────▼──────────────┐
+                   │   │ Display Digitale  │
+                   │   │   (Aggiuntivo)    │
+                   │   └───────────────────┘
+                   │
+                   ✅ Tutto funziona
+                   ✅ Auto utilizzabile normalmente
+                   ✅ Zero interferenze
+```
+
+---
+
+### Modalità Test Sicuro
+
+#### Fase 0: Bench Test (A Casa - Prima di Toccare l'Auto)
+
+**Durata**: 1-2 settimane
+
+**Obiettivo**: Verificare che tutto il sistema funzioni prima di installarlo sulla Musa.
+
+**Checklist**:
+- ☑ Assembla Raspberry Pi + MCP2515 su breadboard
+- ☑ Installa Raspberry Pi OS e dipendenze
+- ☑ Testa MCP2515 in modalità loopback (test interno)
+- ☑ Carica interfaccia HyperMusa in modalità demo (dati simulati)
+- ☑ Verifica rendering UI, performance, stabilità
+- ☑ Lascia acceso per 24h (stress test termico)
+
+**Comando test loopback MCP2515**:
+```bash
+# Abilita SPI
+sudo raspi-config  # Interface Options > SPI > Enable
+
+# Installa can-utils
+sudo apt-get install can-utils
+
+# Configura interfaccia CAN in loopback
+sudo ip link set can0 type can bitrate 500000 loopback on
+sudo ip link set up can0
+
+# Test invio/ricezione
+candump can0 &
+cansend can0 123#DEADBEEF
+
+# Dovresti vedere il messaggio ricevuto
+```
+
+**Risultato atteso**: Sistema stabile, UI fluida, MCP2515 risponde.
+
+---
+
+#### Fase 1: Primo Test su Musa (Auto Ferma, Motore Spento)
+
+**Durata**: 1-2 giorni
+
+**Rischio**: **MINIMO**
+
+**Setup**:
+- Auto parcheggiata in garage/posto sicuro
+- Chiave su MAR (quadro acceso, motore SPENTO)
+- Collegamento temporaneo con tutto smontabile
+
+**Checklist**:
+1. ☐ Collega splitter OBD2 alla porta diagnostica Musa
+2. ☐ Connetti cavo breakout da splitter a MCP2515
+3. ☐ Alimenta Raspberry Pi da powerbank USB-C (NON da auto ancora)
+4. ☐ Avvia HyperMusa e monitora
+
+**Test da eseguire**:
+- ☐ `candump can0` mostra traffico CAN? (dovresti vedere messaggi)
+- ☐ Quadro originale Musa funziona normalmente?
+- ☐ HyperMusa riceve dati (velocità=0, RPM=0, temperatura OK)?
+- ☐ Nessun warning/errore sul quadro Musa?
+- ☐ Lascia acceso 30 minuti, monitora stabilità
+
+**Comandi utili**:
+```bash
+# Configura CAN a 500kbps (come Musa)
+sudo ip link set can0 type can bitrate 500000
+sudo ip link set up can0
+
+# Dump tutti i messaggi CAN
+candump -c can0 | tee musa-can-dump.log
+
+# Filtra solo RPM (PID 0x0C) se disponibile
+candump can0 | grep "0C"
+```
+
+**Risultato atteso**: Traffico CAN visibile, zero errori su Musa, HyperMusa legge dati.
+
+**⚠️ Se qualcosa va male**:
+1. Spegni chiave Musa
+2. Scollega MCP2515 da OBD2
+3. Riaccendi Musa e verifica che funzioni normalmente
+4. Debug: controlla collegamenti, verifica voltaggio CAN-H/CAN-L con multimetro
+
+---
+
+#### Fase 2: Test con Motore Acceso (Auto Ferma)
+
+**Durata**: 3-7 giorni
+**Rischio**: **BASSO**
+
+**Setup**:
+- Auto in garage, motore acceso al minimo
+- Alimentazione Raspberry Pi ANCORA da powerbank (non da auto)
+- Osservazione per 10-30 minuti
+
+**Test**:
+- ☐ RPM mostrati da HyperMusa corrispondono a quadro originale?
+- ☐ Temperatura motore sale correttamente?
+- ☐ Accelerando (pedale gas), RPM si aggiornano in real-time?
+- ☐ Quadro originale non mostra errori/spie accese?
+- ☐ Sistema stabile per 30+ minuti?
+
+**Logging PID per reverse engineering**:
+```bash
+# Registra 5 minuti di traffico CAN mentre acceleri
+candump -l can0
+# Crea file candump-YYYY-MM-DD_HHMMSS.log
+
+# Analizza dopo con SavvyCAN o script Python
+```
+
+**Obiettivo**: Mappare i PID specifici Lancia Musa, capire quali dati sono disponibili.
+
+---
+
+#### Fase 3: Test in Movimento (Bassa Velocità)
+
+**Durata**: 1-2 settimane
+**Rischio**: **MEDIO** (richiede attenzione)
+
+**Setup**:
+- Passeggero presente per monitorare HyperMusa
+- Percorso: parcheggio vuoto o strada poco trafficata
+- Alimentazione: Ora puoi passare a alimentatore 12V auto (accendisigari)
+
+**Test**:
+- ☐ Prima di partire: Velocità HyperMusa = 0?
+- ☐ In movimento: Velocità corrisponde a quadro originale e GPS?
+- ☐ Cambio marcia: RPM si aggiornano correttamente?
+- ☐ Frenata: Velocità scende in sync con quadro originale?
+- ☐ Test 10-20 km, varie velocità (30-90 km/h)
+
+**🚨 REGOLE SICUREZZA**:
+- **TU GUIDI**, non guardare mai HyperMusa mentre sei in movimento
+- **PASSEGGERO** monitora display e annota anomalie
+- Se qualsiasi cosa sembra strana, **FERMA** e disabilita HyperMusa
+- Quadro originale è **SEMPRE** la fonte di verità
+
+**Risultato atteso**: Dati accurati, zero interferenze con auto, sistema stabile.
+
+---
+
+#### Fase 4: Test Esteso (Uso Quotidiano)
+
+**Durata**: 1-2 mesi
+**Rischio**: **BASSO** (se Fase 1-3 ok)
+
+**Setup**:
+- Installazione semi-permanente: display con velcro, cavi nascosti con guaine
+- Raspberry Pi fissato sotto sedile/in vano portaoggetti
+- Uso quotidiano normale della Musa
+
+**Obiettivi**:
+- ☐ Sistema acceso ad ogni utilizzo auto (2-4 settimane)
+- ☐ Nessun errore/warning sul quadro Musa
+- ☐ HyperMusa stabile in tutte le condizioni (caldo/freddo, pioggia)
+- ☐ Batteria auto non si scarica (verifica con multimetro dopo 2-3 giorni fermo)
+- ☐ Zero problemi durante revisione (se prevista)
+
+**Monitoraggio**:
+- Log errori HyperMusa: `/var/log/hypermusa/errors.log`
+- Check tensione batteria: prima/dopo uso HyperMusa
+- Feedback: eventuali anomalie comportamento Musa?
+
+**Se tutto ok per 2 mesi** → Installazione definitiva (ma sempre reversibile!)
+
+---
+
+### Guida Rimozione Rapida (Emergenza)
+
+**Tempo richiesto**: 5-10 minuti
+
+**Scenario**: Devi portare la Musa in officina/revisione e vuoi rimuovere HyperMusa.
+
+**Procedura**:
+1. ☐ Spegni Raspberry Pi (shutdown corretto, non staccare alimentazione!)
+2. ☐ Scollega splitter OBD2 (10 secondi)
+3. ☐ Scollega alimentatore 12V da accendisigari (5 secondi)
+4. ☐ Rimuovi display (se velcro: 30 sec, se biadesivo: 2 min con alcool isopropilico)
+5. ☐ Rimuovi Raspberry Pi e nascondi cavi sotto sedile
+6. ☐ Accendi Musa e verifica funzionamento normale
+
+**Checklist verifica**:
+- ☐ Quadro strumenti funziona?
+- ☐ Nessuna spia accesa anomala?
+- ☐ Porta OBD2 libera?
+- ☐ Zero segni visibili di modifica?
+
+**Tempo totale**: <10 minuti
+**Reversibilità**: 100%
+
+---
+
+### Installazione Permanente (Opzionale)
+
+**⚠️ Esegui SOLO dopo 2+ mesi di test senza problemi!**
+
+**Upgrade da temporanea a permanente**:
+
+**1. Alimentazione**:
+- Sostituisci accendisigari con Add-a-Circuit su scatola fusibili
+- Collega a fusibile "accessori" che si attiva con quadro (es. radio)
+- Nascondi cavo alimentazione sotto plancia
+
+**2. Display**:
+- Sostituisci velcro con biadesivo 3M VHB (permanente ma removibile)
+- Valuta supporto custom stampato 3D per integrazione pulita
+- Passa cavi HDMI/USB dentro plancia (richiede smontaggio)
+
+**3. Raspberry Pi**:
+- Case custom 3D per montaggio sotto cruscotto
+- Ventola sempre attiva (temperatura auto alta in estate!)
+- Fissaggio con viti a plancia (verifica punti di montaggio sicuri)
+
+**4. Cavi**:
+- Tutti i cavi in guaina nera nascosta
+- Fissaggio con clips lungo percorso cavi originali
+- Etichettatura professionale per manutenzione futura
+
+**⚠️ Anche con "installazione permanente", rimane 100% reversibile!**
+Tempo rimozione sale a 30-60 minuti ma è possibile.
+
+---
+
+## 🧪 12. Modalità Demo e Test Senza Auto
+
+### Simulatore CAN-Bus Virtuale
+
+Per sviluppare HyperMusa senza accesso continuo alla Musa, implementa modalità demo:
+
+#### Virtual CAN Interface (vcan)
+
+```bash
+# Crea interfaccia CAN virtuale su Raspberry Pi
+sudo modprobe vcan
+sudo ip link add dev vcan0 type vcan
+sudo ip link set up vcan0
+
+# Simula traffico CAN Lancia Musa
+# Script Python per generare PID realistici
+```
+
+---
+
+### Script Simulatore Python
+
+Crea file `tests/musa-can-simulator.py`:
+
+```python
+#!/usr/bin/env python3
+"""
+Simulatore CAN-Bus Lancia Musa 2009
+Genera traffico CAN realistico per test HyperMusa senza veicolo
+"""
+
+import can
+import time
+import random
+
+# Configura bus CAN virtuale
+bus = can.interface.Bus(channel='vcan0', bustype='socketcan')
+
+def simulate_musa_can():
+    """Simula messaggi CAN tipici di Lancia Musa"""
+
+    while True:
+        # RPM motore (0-6000 rpm) - PID 0x0C
+        rpm = random.randint(800, 3000)  # Minimo a medio
+        msg_rpm = can.Message(
+            arbitration_id=0x7E8,  # ID risposta ECU
+            data=[0x04, 0x41, 0x0C, rpm >> 8, rpm & 0xFF],
+            is_extended_id=False
+        )
+        bus.send(msg_rpm)
+
+        # Velocità (0-200 km/h) - PID 0x0D
+        speed = random.randint(0, 120)
+        msg_speed = can.Message(
+            arbitration_id=0x7E8,
+            data=[0x03, 0x41, 0x0D, speed],
+            is_extended_id=False
+        )
+        bus.send(msg_speed)
+
+        # Temperatura motore (60-95°C) - PID 0x05
+        temp = random.randint(80, 92) + 40  # Offset +40 per protocollo OBD
+        msg_temp = can.Message(
+            arbitration_id=0x7E8,
+            data=[0x03, 0x41, 0x05, temp],
+            is_extended_id=False
+        )
+        bus.send(msg_temp)
+
+        # Livello carburante (20-100%) - PID 0x2F
+        fuel = random.randint(30, 90) * 255 // 100
+        msg_fuel = can.Message(
+            arbitration_id=0x7E8,
+            data=[0x03, 0x41, 0x2F, fuel],
+            is_extended_id=False
+        )
+        bus.send(msg_fuel)
+
+        time.sleep(0.1)  # 10 Hz update rate
+
+if __name__ == "__main__":
+    print("🚗 Simulatore CAN Lancia Musa attivo su vcan0")
+    print("   RPM: 800-3000 | Speed: 0-120 km/h | Temp: 80-92°C")
+    try:
+        simulate_musa_can()
+    except KeyboardInterrupt:
+        print("\n✅ Simulatore terminato")
+```
+
+**Uso**:
+```bash
+# Avvia simulatore in background
+python3 tests/musa-can-simulator.py &
+
+# Verifica messaggi
+candump vcan0
+
+# Testa HyperMusa con dati simulati
+./hypermusa --can-interface vcan0
+```
+
+---
+
+## ✅ 13. Checklist Compatibilità Finale
+
+### Hardware
+
+- ☑ **Raspberry Pi 5 4GB**: ✅ Compatibile con MCP2515 via SPI
+- ☑ **MCP2515 + TJA1050**: ✅ Supporta ISO 15765-4 CAN a 500 kbps
+- ☑ **Lancia Musa 2009**: ✅ CAN-Bus nativo, porta OBD2 standard J1962
+- ☑ **Display 10.1"-12.3"**: ✅ Connessione HDMI standard Raspberry Pi
+- ☑ **Alimentazione 12V→5V 5A**: ✅ Compatibile con impianto elettrico Musa 12V
+- ☑ **Cavi e connettori**: ✅ Standard automotive, disponibili su Amazon.it
+
+---
+
+### Software
+
+- ☑ **Raspberry Pi OS**: ✅ Supporto nativo MCP2515 (driver mcp251x kernel)
+- ☑ **can-utils**: ✅ Tool standard Linux per CAN-Bus
+- ☑ **Socket CAN**: ✅ Interfaccia Linux per applicazioni CAN
+- ☑ **Node.js + React**: ✅ Stack Cyberpandino compatibile con Pi 5
+
+---
+
+### Sicurezza e Normative
+
+- ☑ **OBD2 Read-Only**: ✅ Solo lettura, nessuna scrittura su CAN-Bus
+- ☑ **Quadro Originale Intatto**: ✅ Funziona in parallelo, mai disabilitato
+- ☑ **Reversibilità**: ✅ Rimozione completa in <10 minuti senza tracce
+- ☑ **Fusibile Protezione**: ✅ Fusibile inline 5A su alimentazione (raccomandato)
+- ☑ **Isolamento Elettrico**: ✅ MCP2515 con transceiver TJA1050 isolato
+- ☑ **Temperatura Operativa**: ✅ -40°C a +85°C (componenti automotive-grade)
+
+---
+
+### Garanzia e Assicurazione
+
+- ☑ **Garanzia Musa**: ⚠️ Verifica con concessionario (auto 2009 probabilmente fuori garanzia)
+- ☑ **Assicurazione**: ⚠️ Informa assicurazione se installazione permanente
+- ☑ **Revisione**: ✅ Display aggiuntivo non interferisce con sistemi sicurezza (OK per revisione)
+
+---
+
+## 🎯 Riepilogo Budget Aggiornato
+
+### Configurazione Consigliata (AGGIORNATA con cavetteria)
+
+| Categoria | Costo | Note |
+|-----------|-------|------|
+| **Hardware base** (già definito) | 298€ | Pi 5, MCP2515, display 10.1", etc. |
+| **Cavetteria aggiuntiva** | +55€ | Splitter OBD2, HDMI, clips, guaine |
+| **TOTALE REALE** | **~353€** | Budget finale realistico |
+
+---
+
+### Budget Corretto per Fasce
+
+- **Base**: 169€ + 40€ cavi = **~210€**
+- **Consigliata**: 298€ + 55€ cavi = **~350€** ✅
+- **Premium**: 505€ + 60€ cavi = **~565€**
+
+---
+
 ## 🛒 LISTA DELLA SPESA COMPLETA
 
 ### ⚙️ Configurazione Base (~250€)
@@ -1026,12 +1650,13 @@ Batteria 12V (o OBD2 pin 16)
 | 8 | Protezioni | Fusibili 3A + portafusibili inline (×2) | 8€ | Amazon.it / Brico |
 | 9 | Cablaggio | HDMI + USB + accessori | 15€ | Amazon.it |
 | 10 | Montaggio | Velcro heavy duty + fascette | 8€ | Amazon.it / Brico |
-| | **TOTALE BASE** | | **185€** | |
+| 11 | **Cavetteria** | Splitter OBD2 + cavi HDMI/USB + guaine | **40€** | Amazon.it |
+| | **TOTALE BASE** | | **~210€** | |
 
 **+ Opzionale Strumenti** (se non posseduti):
 - Multimetro digitale: ~18€
 - Cacciaviti set: ~10€
-- **Subtotale con strumenti**: ~213€
+- **Subtotale con strumenti**: ~240€
 
 ---
 
@@ -1052,12 +1677,12 @@ Batteria 12V (o OBD2 pin 16)
 | 9 | Sensori | MPU6050 accelerometro | 7€ | [Amazon.it](https://www.amazon.it/s?k=mpu6050) |
 | 10 | Protezioni | Fusibili + portafusibili + diodi | 10€ | Amazon.it / Brico |
 | 11 | Montaggio | Biadesivo 3M VHB + velcro | 12€ | Amazon.it / Brico |
-| 12 | Cablaggio | HDMI + USB + guaine + accessori | 20€ | Amazon.it |
-| | **TOTALE CONSIGLIATO** | | **300€** | |
+| 12 | **Cavetteria** | Splitter OBD2 + HDMI + USB + guaine + clips | **55€** | Amazon.it |
+| | **TOTALE CONSIGLIATO** | | **~353€** | |
 
 **+ Opzionale Strumenti**:
 - Multimetro + cacciaviti: ~28€
-- **Subtotale con strumenti**: ~328€
+- **Subtotale con strumenti**: ~380€
 
 **+ Opzionale Power Bank** (shutdown sicuro):
 - Power Bank 10000mAh USB-C: ~25€
@@ -1082,28 +1707,28 @@ Batteria 12V (o OBD2 pin 16)
 | 9 | Sensori | MPU6050 + DHT22 + accessori | 18€ | Amazon.it |
 | 10 | Protezioni | Kit protezioni completo (fusibili, diodi, relay) | 15€ | Amazon.it |
 | 11 | Montaggio | **Supporto custom 3D printed** + 3M VHB | 40€ | Etsy / Servizi stampa 3D |
-| 12 | Cablaggio | Kit completo professionale guainato | 35€ | Amazon.it |
+| 12 | **Cavetteria** | Splitter OBD2 + Kit cavi professionale guainato | **60€** | Amazon.it |
 | 13 | Strumenti | Multimetro + set cacciaviti + crimpatrice | 40€ | Amazon.it |
-| | **TOTALE PREMIUM** | | **557€** | |
+| | **TOTALE PREMIUM** | | **~565€** | |
 
 **+ Opzionale Dashcam** (integrazione futura):
 - USB Webcam HD: ~30€
-- **Totale con dashcam**: ~587€
+- **Totale con dashcam**: ~595€
 
 ---
 
 ## 🎯 Raccomandazioni Finali per Budget
 
-### Budget ~200€ (Minimo Assoluto)
-- Pi 4B 4GB + Display 7" + MSD 32GB + MCP2515 + cavi base
+### Budget ~210€ (Minimo Assoluto)
+- Pi 4B 4GB + Display 7" + MSD 32GB + MCP2515 + cavetteria base
 - ⚠️ Funziona ma UI limitata, solo per POC rapidi
 
-### Budget ~300€ (Sweet Spot) ✅ **RACCOMANDATO**
-- Pi 5 4GB + Display 10.1" + MSD 64GB + GPS + sensori
+### Budget ~353€ (Sweet Spot) ✅ **RACCOMANDATO**
+- Pi 5 4GB + Display 10.1" + MSD 64GB + GPS + sensori + cavetteria completa
 - ✅ Performance ottime, espandibile, installazione semi-definitiva
 
-### Budget ~550€ (Enthusiast)
-- Pi 5 8GB + Display bar 12.3" + tutti accessori + supporto custom
+### Budget ~565€ (Enthusiast)
+- Pi 5 8GB + Display bar 12.3" + tutti accessori + supporto custom + cavetteria premium
 - ✅ Massime performance, look professionale automotive
 
 ---
