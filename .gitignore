@@ -1,0 +1,47 @@
+# Dependencies
+node_modules/
+npm-debug.log*
+package-lock.json
+yarn.lock
+
+# Production builds
+dist/
+build/
+*.out
+
+# Environment variables
+.env
+.env.local
+.env.production
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Logs
+logs/
+*.log
+
+# Temporary files
+tmp/
+temp/
+*.tmp
+
+# Electron
+out/
+release/
+
+# Raspberry Pi specific
+*.pyc
+__pycache__/
+
+# Hardware testing
+*.pcap
+*.dump
