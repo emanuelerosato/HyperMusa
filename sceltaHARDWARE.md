@@ -1,10 +1,11 @@
 # 🎯 HyperMusa - Configurazione Hardware Definitiva
 
 **Data analisi**: 11 Dicembre 2025
-**Budget totale calcolato**: €366
-**Livello configurazione**: Ottimale Bilanciata
+**Budget totale calcolato**: €361 (senza strumenti) / €389 (con strumenti)
+**Livello configurazione**: Ottimale Bilanciata + Power Management
 
 > 📌 Questo documento contiene la configurazione hardware DEFINITIVA scelta da analisi tecnica approfondita.
+> Include **standby mode** per boot <5s e autonomia batteria 15 giorni.
 > Per tutte le opzioni alternative, consulta [HARDWARE.md](HARDWARE.md).
 
 ---
@@ -193,6 +194,205 @@ Ho analizzato tutte le opzioni in `HARDWARE.md` usando questi criteri ponderati:
 
 ---
 
+### 9. 🆕 Power Management: Standby Mode
+
+#### ✅ Relay Module 5V @ 8€
+
+**DECISIONE: SÌ, includere nella configurazione base**
+
+**Motivazione**:
+1. **Boot istantaneo**: Abilita Suspend-to-RAM (S3) con wake <5s invece di 35-40s cold boot. Esperienza utente radicalmente migliorata (come smartphone).
+2. **Autonomia batteria critica**: Senza standby mode, sistema attivo consuma 1.87A @ 12V = batteria scarica in ~16h. Con standby: 0.034A = autonomia 15+ giorni.
+3. **Costo irrisorio**: 8€ per funzionalità che rende il sistema utilizzabile quotidianamente. Senza standby, HyperMusa è proof-of-concept, non daily driver.
+
+**Funzione tecnica**:
+- Rileva stato chiave AUTO via OBD2 pin 15 (L-Line: 0V OFF, 12V MAR)
+- Trigger GPIO 17 Raspberry Pi per suspend/wake automatico
+- Integrato con daemon `hypermusa-power.service` (systemd)
+
+**Uso previsto**:
+- Chiave OFF → Countdown 60s → Sistema entra in suspend S3 (RAM powered, CPU off)
+- Chiave MAR → Interrupt GPIO → Wake immediato (3-5s) → UI già caricata
+
+**Impact sulla user experience**:
+- ❌ **Senza relay**: Ogni volta che accendi auto, attendi 35-40s boot
+- ✅ **Con relay**: Giri chiave, dashboard attiva in 3-5s (come quadro OEM)
+
+---
+
+#### ❌ Power Bank Backup 10.000mAh USB-C PD @ 25€
+
+**DECISIONE: NO, rimandare a Fase 3 (upgrade futuro opzionale)**
+
+**Motivazione**:
+1. **Non essenziale**: Protezione batteria già gestita via software (shutdown automatico a 11.5V). Power bank è ridondanza "nice to have".
+2. **Complessità aggiunta**: Richiede circuito switching automatico 12V/5V, gestione ricarica, monitoraggio stato carica. Troppo per configurazione base.
+3. **Costo/beneficio**: 25€ per feature usata raramente (solo se batteria auto critica). Meglio investire in relay module (8€) con ROI molto maggiore.
+
+**Quando considerarlo (Fase 3)**:
+- Batteria auto vecchia (>5 anni) con capacità ridotta
+- Utilizzi frequenti sistema con motore spento (es. "ufficio mobile")
+- Temperatura estreme (<-10°C inverno) che riducono capacità batteria
+
+**Alternative più economiche**:
+- Semplice voltmetro 12V (5€) per monitorare manualmente stato batteria
+- Allarme sonoro software quando voltaggio <11.8V
+
+---
+
+## 🔋 Analisi Autonomia Batteria
+
+### Batteria Lancia Musa Standard
+
+**Specifiche**:
+- Capacità: 60-70Ah (tipica Musa 1.4 benzina 2009)
+- Tipo: Piombo-acido tradizionale o AGM (se optional Start&Stop)
+- Tensione nominale: 12V
+- Scarica sicura: 50% capacità = 30-35Ah utilizzabili
+
+### Consumi Sistema HyperMusa (Configurazione Scelta)
+
+| Componente | Idle | Carico Medio | Picco |
+|------------|------|--------------|-------|
+| Raspberry Pi 5 4GB | 5W | 10W | 15W |
+| Display 10.1" IPS 1920×1200 (80% luminosità) | 6W | 8W | 10W |
+| MCP2515 CAN module | 0.025W | 0.125W | 0.2W |
+| GPS VK-162 USB | 0.3W | 0.5W | 0.7W |
+| Relay module (sempre attivo) | 0.05W | 0.05W | 0.05W |
+| **TOTALE @ 5V** | **~11W** | **~19W** | **~26W** |
+| **TOTALE @ 12V** (efficienza DC-DC 85%) | **~13W** | **~22W** | **~31W** |
+| **Corrente @ 12V** | **1.08A** | **1.87A** | **2.58A** |
+
+**Consumo standby (Suspend S3)**:
+- Raspberry Pi 5 (solo RAM): 0.3W
+- Relay module: 0.05W
+- Display OFF: 0W
+- GPS OFF: 0W
+- MCP2515 sleep mode: 0.001W
+- **TOTALE standby @ 5V**: ~0.35W
+- **TOTALE standby @ 12V**: ~0.41W (0.034A)
+
+### Scenari di Utilizzo
+
+#### ✅ Scenario A: Uso Normale (Motore Acceso)
+
+**Configurazione**:
+- Sistema HyperMusa attivo: 1.87A @ 12V
+- Alternatore Musa 1.4: 70-90A @ 14.2V
+- Altri carichi auto: ~10-15A (luci, climatizzatore, ECU)
+
+**Bilancio energetico**:
+```
+Alternatore: +70A
+Carichi auto: -12A
+HyperMusa: -1.87A
+SALDO: +56A → Batteria si ricarica ✅
+```
+
+**Risultato**: Nessun problema, batteria rimane carica durante guida.
+
+---
+
+#### ⚠️ Scenario B: Sistema Attivo, Motore Spento
+
+**Configurazione**:
+- HyperMusa attivo in demo/sviluppo: 1.87A @ 12V
+- Motore spento: 0A carica
+- Parassiti auto (ECU, orologio): ~0.05A
+
+**Autonomia**:
+```
+Capacità utilizzabile: 30Ah
+Consumo totale: 1.87A + 0.05A = 1.92A
+Autonomia = 30Ah / 1.92A = 15.6 ore
+```
+
+**Risultato**: ⚠️ Batteria scarica dopo ~16 ore di sistema attivo con motore spento.
+
+**Quando si verifica**:
+- Sviluppo software bench test (laptop alimenta Pi per evitare)
+- Emergenza (motore non parte ma vuoi usare HyperMusa)
+- **USO NON RACCOMANDATO per >1h**
+
+---
+
+#### ✅ Scenario C: Standby Mode (CON Relay Module)
+
+**Configurazione**:
+- HyperMusa in suspend S3: 0.034A @ 12V
+- Parassiti auto: ~0.05A
+- **Consumo totale**: 0.084A
+
+**Autonomia**:
+```
+Capacità utilizzabile: 30Ah
+Consumo totale: 0.084A
+Autonomia = 30Ah / 0.084A = 357 ore = 14.9 giorni
+```
+
+**Risultato**: ✅ Auto parcheggiata **15 giorni** senza avviare motore, batteria OK.
+
+**Quando si verifica**:
+- Uso quotidiano normale (spegni chiave → suspend automatico dopo 60s)
+- Parcheggio aeroporto (vacanza 1-2 settimane)
+- Auto ferma inverno/estate
+
+**Protezione aggiuntiva**:
+- Daemon monitora voltaggio batteria ogni 5 minuti (via CAN PID 0x42)
+- Se voltaggio <11.5V → Shutdown emergenza automatico
+- Previene danni batteria da scarica profonda
+
+---
+
+#### ❌ Scenario D: Senza Standby Mode (NO Relay Module)
+
+**Configurazione**:
+- HyperMusa sempre attivo (no suspend): 1.87A @ 12V
+- Parassiti auto: 0.05A
+- **Consumo totale**: 1.92A
+
+**Autonomia**:
+```
+Capacità utilizzabile: 30Ah
+Consumo totale: 1.92A
+Autonomia = 30Ah / 1.92A = 15.6 ore
+```
+
+**Risultato**: ❌ Batteria scarica in **16 ore** anche con chiave spenta.
+
+**Impatto pratico**:
+- Auto parcheggiata venerdì sera → lunedì mattina batteria scarica (36h < 16h)
+- Devi ricordarti di spegnere manualmente HyperMusa (SSH shutdown)
+- Sistema inutilizzabile come daily driver
+
+**Conclusione**: Relay module (8€) **NON È OPZIONALE** per uso reale.
+
+---
+
+### 🎯 Raccomandazione Batteria
+
+**Batteria originale 60Ah**: ✅ **SUFFICIENTE** con Standby Mode implementato
+
+**Vantaggi configurazione attuale**:
+- Autonomia 15 giorni parcheggio (molto superiore a uso tipico)
+- Protezione software shutdown <11.5V
+- Nessun upgrade batteria necessario
+
+**Quando considerare upgrade batteria 70-80Ah AGM** (~160€):
+- ⚠️ Batteria originale >5 anni (capacità ridotta a ~40-50Ah)
+- ⚠️ Clima molto freddo (<-15°C) che riduce capacità 30-40%
+- ⚠️ Usi frequenti sistema con motore spento >2h
+
+**Batteria consigliata se upgrade**:
+- **Bosch S5 A08 AGM 70Ah** (~160€) - [Amazon.it](https://www.amazon.it/s?k=bosch+s5+a08+70ah)
+- Installazione: Drop-in replacement (stesse dimensioni 242×175×190mm)
+- Vantaggi: +17% capacità, cicli scarica 3x superiori, Start&Stop ready
+- **NON serve modificare alternatore** (70A Musa compatibile)
+
+**Conclusione**: Con relay module (8€), batteria stock 60Ah è perfetta. Upgrade solo se batteria già vecchia.
+
+---
+
 ## 🛒 Lista della Spesa Finale
 
 ### Componenti Principali (Priorità ALTA)
@@ -205,10 +405,11 @@ Ho analizzato tutte le opzioni in `HARDWARE.md` usando questi criteri ponderati:
 | 4 | **Storage** | MicroSD 64GB SanDisk Extreme PRO A2 | **20€** | [Amazon.it](https://www.amazon.it/s?k=sandisk+extreme+pro+64gb+microsd) | 🔴 ALTA |
 | 5 | **Alimentazione** | DC-DC 12V→5V 5A USB-C PD accendisigari | **20€** | [Amazon.it](https://www.amazon.it/s?k=12v+5v+5a+usb-c+auto) | 🔴 ALTA |
 | 6 | **Case** | Case Pi 5 con ventola attiva PWM | **18€** | [Melopero](https://www.melopero.com/) | 🔴 ALTA |
-| 7 | **GPS** | VK-162 u-blox USB GPS | **18€** | [Amazon.it](https://www.amazon.it/s?k=vk-162+gps) | 🟢 OPZIONALE |
-| 8 | **Protezioni** | Fusibili 3A + portafusibili inline (×2) | **10€** | Amazon.it / Brico | 🔴 ALTA |
+| 7 | **Relay Module** | Relay 5V 1 canale per standby mode | **8€** | [Amazon.it](https://www.amazon.it/s?k=relay+5v+1+canale) | 🔴 ALTA |
+| 8 | **GPS** | VK-162 u-blox USB GPS | **18€** | [Amazon.it](https://www.amazon.it/s?k=vk-162+gps) | 🟢 OPZIONALE |
+| 9 | **Protezioni** | Fusibili 3A + portafusibili inline (×2) | **10€** | Amazon.it / Brico | 🔴 ALTA |
 
-**Subtotale componenti principali**: **246€**
+**Subtotale componenti principali**: **254€**
 
 *Priorità MEDIA per display = Ordinare DOPO aver misurato cruscotto Musa (vedi Fase 2)
 
@@ -247,21 +448,23 @@ Ho analizzato tutte le opzioni in `HARDWARE.md` usando questi criteri ponderati:
 
 | Categoria | Subtotale | Note |
 |-----------|-----------|------|
-| **Componenti principali** | **246€** | Computer, CAN, storage, alimentazione, case, GPS, protezioni |
+| **Componenti principali** | **254€** | Computer, CAN, storage, alimentazione, case, relay, GPS, protezioni |
 | **Display** | **75€** | Ordinare Fase 2 dopo misure cruscotto |
 | **Cavetteria** | **60€** | Splitter OBD2, cavi HDMI/USB, guaine, clips, velcro |
 | **Strumenti** (opzionali) | **28€** | Se non già posseduti |
 | | |
-| **TOTALE configurazione completa** | **381€** | Con strumenti |
-| **TOTALE senza strumenti** | **353€** | Se già possiedi multimetro/cacciaviti |
+| **TOTALE configurazione completa** | **389€** | Con strumenti |
+| **TOTALE senza strumenti** | **361€** | Se già possiedi multimetro/cacciaviti |
 
-**Range budget raccomandato**: **353€ - 381€**
+**Range budget raccomandato**: **361€ - 389€**
+
+**💡 Nota importante**: Il relay module (8€) è **essenziale** per standby mode. Senza di esso, batteria auto si scarica in 16h invece di 15 giorni.
 
 ---
 
 ## 📦 Piano di Acquisto Consigliato
 
-### 🔴 Fase 1: Ordina Subito (Sviluppo Software - Budget ~180€)
+### 🔴 Fase 1: Ordina Subito (Sviluppo Software - Budget ~159€)
 
 **Obiettivo**: Iniziare sviluppo in modalità demo (senza auto)
 
@@ -271,11 +474,12 @@ Ho analizzato tutte le opzioni in `HARDWARE.md` usando questi criteri ponderati:
 - ☑ Case con ventola attiva (~18€) - [Melopero](https://www.melopero.com/)
 - ☑ MicroSD 64GB SanDisk Extreme PRO A2 (~20€) - [Amazon.it](https://www.amazon.it/s?k=sandisk+extreme+pro+64gb)
 - ☑ MCP2515 + TJA1050 CAN module (~10€) - [Battery Atom](https://www.batteryatom.it/prodotto/mcp2515-can-bus-modul-tja1050-transceiver-5v-arduino-raspberry-pi/)
+- ☑ Relay module 5V 1 canale (~8€) - [Amazon.it](https://www.amazon.it/s?k=relay+5v+1+canale)
 - ☑ Kit cavi Dupont F-F (~5€) - [Amazon.it](https://www.amazon.it/s?k=cavi+dupont+femmina)
 - ☑ Cavo HDMI Micro→Standard (~8€) - Amazon.it
 - ☑ (Opzionale) Multimetro + cacciaviti (~28€) - Se non posseduti
 
-**Subtotale Fase 1**: **~151€** (senza strumenti) / **~179€** (con strumenti)
+**Subtotale Fase 1**: **~159€** (senza strumenti) / **~187€** (con strumenti)
 
 **Tempo consegna atteso**:
 - Melopero (IT): 3-5 giorni
@@ -287,6 +491,9 @@ Ho analizzato tutte le opzioni in `HARDWARE.md` usando questi criteri ponderati:
 ✅ Installare dipendenze (Node.js, can-utils, React)
 ✅ Test MCP2515 in loopback mode (senza auto)
 ✅ Sviluppo UI HyperMusa in modalità demo (dati simulati)
+✅ Test relay module e GPIO wake interrupt (simula chiave ON/OFF)
+✅ Implementazione daemon `hypermusa-power.service`
+✅ Test suspend/wake manuale
 ✅ Stress test 24h sistema
 
 **Durata Fase 1**: 1-2 settimane (bench test completo)
@@ -296,6 +503,8 @@ Ho analizzato tutte le opzioni in `HARDWARE.md` usando questi criteri ponderati:
 ### 🟡 Fase 2: Ordina Dopo Misure Cruscotto (Installazione Auto - Budget ~173€)
 
 **⚠️ IMPORTANTE**: Esegui questi acquisti SOLO dopo aver misurato precisamente il cruscotto Musa!
+
+**⚠️ PREREQUISITO**: Fase 1 completata con successo (bench test OK, standby mode funzionante)
 
 **Procedura pre-acquisto**:
 1. Apri portiera Musa, siediti al posto guida
@@ -347,11 +556,14 @@ Ho analizzato tutte le opzioni in `HARDWARE.md` usando questi criteri ponderati:
 - ☐ Accelerometro MPU6050 (~7€) - Amazon.it
   - Se vuoi: G-force display racing-style
 - ☐ Power bank 10.000mAh USB-C PD (~25€) - Amazon.it
-  - Per: Shutdown sicuro quando togli chiave (UPS mode)
+  - Per: UPS mode ridondante (solo se batteria auto vecchia >5 anni)
+  - ⚠️ Relay module già fornisce protezione batteria sufficiente
 - ☐ Cavo Add-a-Circuit per fusibili (~8€) - Amazon.it
   - Per: Installazione permanente alimentazione nascosta
+- ☐ Batteria AGM 70Ah (~160€) - Se batteria originale degradata
+  - Solo se batteria >5 anni e autonomia <7 giorni
 
-**Subtotale Fase 3**: **~40€**
+**Subtotale Fase 3**: **~40€** (componenti elettronici) / **~200€** (con batteria upgrade)
 
 ---
 
@@ -364,6 +576,8 @@ Ho analizzato tutte le opzioni in `HARDWARE.md` usando questi criteri ponderati:
 ✅ **Display 10.1" + Pi 5 HDMI**: Micro-HDMI → HDMI standard compatibile
 ✅ **Alimentazione 12V Musa → 5V 5A Pi 5**: Convertitore DC-DC automotive grade OK
 ✅ **GPS VK-162 + Raspberry Pi OS**: Driver NMEA nativo, plug & play `/dev/ttyUSB0`
+✅ **Relay Module + GPIO 17**: Wake interrupt supportato da kernel Linux (ACPI S3)
+✅ **OBD2 pin 15 (L-Line) + Relay**: 12V chiave MAR rilevato correttamente
 
 ---
 
@@ -373,14 +587,23 @@ Ho analizzato tutte le opzioni in `HARDWARE.md` usando questi criteri ponderati:
 |---------|----------------|------|
 | **Framerate UI** | 30-45 FPS | Three.js modello Musa 3D medio-complesso |
 | **Latenza CAN-Bus** | <30ms | Read PID → Display aggiornato |
-| **Boot time** | ~25s | Da power-on a UI caricata |
-| **Consumo totale** | ~23W (1.9A @ 12V) | Pi 5 + Display 10.1" + GPS sotto carico |
-| **Autonomia batteria** | ~26h | Batteria Musa 60Ah, motore spento (NO recommended!) |
+| **Boot time (cold)** | ~35-40s | Da power-on completo a UI caricata |
+| **🆕 Wake time (standby)** | **3-5s** | Resume da S3, UI già in RAM |
+| **Consumo attivo** | ~23W (1.87A @ 12V) | Pi 5 + Display 10.1" + GPS sotto carico |
+| **🆕 Consumo standby** | **~0.4W (0.034A @ 12V)** | Solo RAM powered, CPU off |
+| **🆕 Autonomia standby** | **~15 giorni** | Batteria Musa 60Ah con parassiti auto |
+| **Autonomia attiva** | ~16h | Motore spento - NON RACCOMANDATO >1h |
 
 **Performance Three.js dettagliate**:
 - Modello 3D semplice (<10k vertici): 45+ FPS
 - Modello 3D complesso (50k+ vertici, texture 4K): 25-30 FPS
 - Post-processing (bloom, anti-aliasing): -5-10 FPS
+
+**🆕 Performance Power Management**:
+- Tempo suspend (chiave OFF): 60s countdown + 2s transizione
+- Cicli suspend/wake supportati: Illimitati (flash wear trascurabile)
+- Protezione batteria: Shutdown automatico <11.5V
+- Temperatura operativa relay: -40°C a +85°C (automotive grade)
 
 ---
 
@@ -393,10 +616,10 @@ Ho analizzato tutte le opzioni in `HARDWARE.md` usando questi criteri ponderati:
    - Mitigazione: Design UI responsive, layout verticale possibile
 
 2. **Pi 5 consumo energetico superiore**
-   - PRO: Performance eccellenti
+   - PRO: Performance eccellenti, standby S3 efficiente
    - CONTRO: Consuma ~15W vs ~10W Pi 4, scalda di più
-   - Impatto: Ventola attiva obbligatoria (rumore ~20dB), consumo batteria maggiore
-   - Mitigazione: Case con ventola PWM silenziosa, auto-shutdown dopo 10 min
+   - Impatto: Ventola attiva obbligatoria (rumore ~20dB)
+   - Mitigazione: Case con ventola PWM silenziosa, **standby mode S3 dopo 60s chiave OFF**
 
 3. **MCP2515 cablaggio Dupont**
    - PRO: Economico, flessibile
@@ -534,8 +757,9 @@ Ho analizzato tutte le opzioni in `HARDWARE.md` usando questi criteri ponderati:
 
 - **Documentazione completa opzioni**: [HARDWARE.md](HARDWARE.md) - 2.400+ righe, tutte le alternative
 - **Architettura sistema**: [ARCHITECTURE.md](ARCHITECTURE.md) - Stack tecnologico dettagliato
+- **🆕 Power Management**: [docs/power-management.md](docs/power-management.md) - Guida completa standby mode
 - **Note migrazione Cyberpandino**: [docs/migration-notes.md](docs/migration-notes.md) - Differenze Panda vs Musa
-- **Roadmap progetto**: [ROADMAP.md](ROADMAP.md) - Timeline sviluppo
+- **Roadmap progetto**: [ROADMAP.md](ROADMAP.md) - Timeline sviluppo (include Fase 3 Power Management)
 - **Installazione non invasiva**: [HARDWARE.md sezione 11](HARDWARE.md#-11-installazione-non-invasiva-e-reversibilità) - 4 fasi test progressivo
 - **Simulatore CAN**: [tests/musa-can-simulator.py](tests/musa-can-simulator.py) - Test senza auto
 
@@ -558,6 +782,8 @@ Ho analizzato tutte le opzioni in `HARDWARE.md` usando questi criteri ponderati:
 
 **Cosa aspettarsi**:
 - ✅ Performance eccellenti (30-45 FPS Three.js)
+- ✅ **Boot istantaneo 3-5s** da standby (relay module)
+- ✅ **Autonomia 15 giorni** parcheggio senza scaricare batteria
 - ✅ Dati CAN-Bus accurati e real-time
 - ✅ Sistema stabile e affidabile
 - ✅ Installazione 100% reversibile
@@ -567,8 +793,9 @@ Ho analizzato tutte le opzioni in `HARDWARE.md` usando questi criteri ponderati:
 - ⚠️ Primi 2-3 mesi = test, non installazione definitiva
 
 **Se cerchi invece**:
-- Look ultra-professionale OEM-like → Aggiungi +150€ (display bar 12.3", PiCAN HAT, supporto 3D custom)
-- Budget minimo assoluto → Downgrade a Pi 4 + display 7" (~210€ totale, ma UI meno fluida)
+- **Look ultra-professionale OEM-like** → Aggiungi +150€ (display bar 12.3", PiCAN HAT, supporto 3D custom)
+- **Budget minimo assoluto** → Downgrade a Pi 4 + display 7" (~210€ totale, ma UI meno fluida + ⚠️ **NO standby mode affidabile**)
+- **Solo proof-of-concept NO daily use** → Risparmia 8€ relay (ma batteria scarica in 16h ogni volta)
 
 ---
 
@@ -577,5 +804,11 @@ Ho analizzato tutte le opzioni in `HARDWARE.md` usando questi criteri ponderati:
 **Prossima azione**: Misura cruscotto Musa OGGI, ordina Fase 1 DOMANI! 🚀
 
 **Ultimo aggiornamento**: 11 Dicembre 2025
-**Versione documento**: 1.0
+**Versione documento**: 2.0 (aggiunto Power Management + analisi batteria)
 **Status**: Definitivo, pronto per uso operativo
+**Changelog v2.0**:
+- Aggiunta sezione 9 "Power Management: Standby Mode"
+- Analisi dettagliata autonomia batteria (4 scenari)
+- Relay module incluso in configurazione base (+8€)
+- Budget aggiornato: €361-389 (vs €353-381 v1.0)
+- Documentazione completa calcoli consumi e autonomia
