@@ -462,108 +462,635 @@ Autonomia = 30Ah / 1.92A = 15.6 ore
 
 ---
 
-## 📦 Piano di Acquisto Consigliato
+## 📅 Piano Acquisti Temporale Dettagliato
 
-### 🔴 Fase 1: Ordina Subito (Sviluppo Software - Budget ~159€)
+> 💡 **Filosofia**: Acquista solo ciò che serve per la fase corrente, evita investimenti anticipati inutili.
+> Approccio validato step-by-step riduce rischio economico e tecnico.
 
-**Obiettivo**: Iniziare sviluppo in modalità demo (senza auto)
+### Panoramica Fasi
 
-**Componenti necessari**:
-- ☑ Raspberry Pi 5 4GB (~75€) - [Melopero](https://www.melopero.com/it/shop/boards/pi5/raspberry-pi-5-4gb/)
-- ☑ Alimentatore USB-C 5V 5A (~15€) - [Incluso case o separato Amazon.it]
-- ☑ Case con ventola attiva (~18€) - [Melopero](https://www.melopero.com/)
-- ☑ MicroSD 64GB SanDisk Extreme PRO A2 (~20€) - [Amazon.it](https://www.amazon.it/s?k=sandisk+extreme+pro+64gb)
-- ☑ MCP2515 + TJA1050 CAN module (~10€) - [Battery Atom](https://www.batteryatom.it/prodotto/mcp2515-can-bus-modul-tja1050-transceiver-5v-arduino-raspberry-pi/)
-- ☑ Relay module 5V 1 canale (~8€) - [Amazon.it](https://www.amazon.it/s?k=relay+5v+1+canale)
-- ☑ Kit cavi Dupont F-F (~5€) - [Amazon.it](https://www.amazon.it/s?k=cavi+dupont+femmina)
-- ☑ Cavo HDMI Micro→Standard (~8€) - Amazon.it
-- ☑ (Opzionale) Multimetro + cacciaviti (~28€) - Se non posseduti
+```
+OGGI (12 Dicembre 2025)
+    ↓
+├─ FASE 1: Setup Sviluppo (~2 settimane)
+│   Budget: €159 | Obiettivo: Bench test senza auto
+    ↓
+├─ FASE 2: Installazione Auto (~1 settimana)
+│   Budget: €175 | Obiettivo: HyperMusa funzionante su Musa
+    ↓
+├─ FASE 3: Ottimizzazioni (~continuo)
+│   Budget: €27 | Obiettivo: Features extra opzionali
+    ↓
+└─ FASE 4: Upgrade Definitivi (opzionale, mesi dopo)
+    Budget: ~€200 | Obiettivo: Installazione permanente pro
+```
 
-**Subtotale Fase 1**: **~159€** (senza strumenti) / **~187€** (con strumenti)
-
-**Tempo consegna atteso**:
-- Melopero (IT): 3-5 giorni
-- Battery Atom (IT): 2-4 giorni
-- Amazon.it: 1-2 giorni
-
-**Cosa puoi fare con Fase 1**:
-✅ Setup Raspberry Pi OS
-✅ Installare dipendenze (Node.js, can-utils, React)
-✅ Test MCP2515 in loopback mode (senza auto)
-✅ Sviluppo UI HyperMusa in modalità demo (dati simulati)
-✅ Test relay module e GPIO wake interrupt (simula chiave ON/OFF)
-✅ Implementazione daemon `hypermusa-power.service`
-✅ Test suspend/wake manuale
-✅ Stress test 24h sistema
-
-**Durata Fase 1**: 1-2 settimane (bench test completo)
+**Investimento progressivo**: €159 → €334 → €361 → €561+
+**Risparmio iniziale**: -56% vs acquisto completo (€159 vs €361)
 
 ---
 
-### 🟡 Fase 2: Ordina Dopo Misure Cruscotto (Installazione Auto - Budget ~173€)
+### 🔴 FASE 1: Setup Sviluppo Software
 
-**⚠️ IMPORTANTE**: Esegui questi acquisti SOLO dopo aver misurato precisamente il cruscotto Musa!
+**Obiettivo**: Assemblare Raspberry Pi funzionante e sviluppare HyperMusa UI in modalità demo (SENZA auto)
 
-**⚠️ PREREQUISITO**: Fase 1 completata con successo (bench test OK, standby mode funzionante)
+**Quando ordinare**: 📆 **ORA - Oggi 12 Dicembre 2025**
+**Arrivo stimato**: 16-20 Dicembre 2025 (considerando festività)
+**Budget Fase 1**: **€159** (senza strumenti) / **€187** (con strumenti)
 
-**Procedura pre-acquisto**:
-1. Apri portiera Musa, siediti al posto guida
-2. Misura con metro a nastro:
-   - Larghezza disponibile sopra volante: ____ cm
-   - Altezza disponibile: ____ cm
-   - Profondità max: ____ cm
-3. Crea template cartaceo display 10.1" (22.3cm × 13.9cm)
-4. Verifica che template si posizioni bene senza coprire spie/volante
-5. **SOLO SE** template OK → procedi con acquisti
+#### Pre-requisiti Fase 1
 
-**Componenti da ordinare**:
-- ☑ Display 10.1" Touch IPS 1920×1200 (~75€) - [Amazon.it](https://www.amazon.it/s?k=10.1+touch+1920x1200)
-  - Verifica specifiche: HDMI input, USB touch, 12V o USB-C powered
-- ☑ Splitter OBD2 a Y (~15€) - [Amazon.it](https://www.amazon.it/s?k=obd2+splitter+y+cable)
-- ☑ Convertitore 12V→5V 5A accendisigari (~20€) - [Amazon.it](https://www.amazon.it/s?k=12v+5v+5a+usb-c+auto)
-- ☑ GPS USB VK-162 (~18€) - [Amazon.it](https://www.amazon.it/s?k=vk-162+gps+usb)
-- ☑ Fusibili 3A + portafusibili (~10€) - Amazon.it / Brico
-- ☑ Kit montaggio completo (~35€):
-  - Guaina spiralata 3m (~8€)
-  - Clips adesive cavi (~5€)
-  - Velcro industriale (~8€)
-  - Fascette nylon (~3€)
-  - Cavo USB touch (~5€)
-  - Nastro isolante (~3€)
-  - Cavo USB-A per GPS (~3€)
+✅ Nessuno - Puoi ordinare subito!
 
-**Subtotale Fase 2**: **~173€**
+#### Checklist Acquisti Fase 1
 
-**Tempo consegna**: 1-2 giorni (tutto Amazon.it disponibile)
+| # | Componente | Modello | Prezzo | Fornitore | Priorità | Arrivo Stimato |
+|---|------------|---------|--------|-----------|----------|----------------|
+| 1 | Computer | Raspberry Pi 5 4GB | **75€** | [Melopero](https://www.melopero.com/it/shop/boards/pi5/raspberry-pi-5-4gb/) | 🔴 CRITICA | 3-5 gg |
+| 2 | Case | Case Pi 5 con ventola PWM | **18€** | [Melopero](https://www.melopero.com/) | 🔴 CRITICA | 3-5 gg |
+| 3 | Storage | MicroSD 64GB SanDisk Extreme PRO A2 | **20€** | [Amazon.it](https://www.amazon.it/s?k=sandisk+extreme+pro+64gb+microsd) | 🔴 CRITICA | 1-2 gg |
+| 4 | CAN Interface | MCP2515 + TJA1050 Module | **10€** | [Battery Atom](https://www.batteryatom.it/prodotto/mcp2515-can-bus-modul-tja1050-transceiver-5v-arduino-raspberry-pi/) | 🔴 CRITICA | 2-4 gg |
+| 5 | Power Mgmt | Relay 5V 1 canale | **8€** | [Amazon.it](https://www.amazon.it/s?k=relay+5v+1+canale) | 🔴 CRITICA | 1-2 gg |
+| 6 | Cavi | Kit Dupont F-F 40 pz | **5€** | [Amazon.it](https://www.amazon.it/s?k=cavi+dupont+femmina) | 🔴 CRITICA | 1-2 gg |
+| 7 | Video | Cavo HDMI Micro→Standard 1m | **8€** | [Amazon.it](https://www.amazon.it/s?k=micro+hdmi+cable) | 🔴 CRITICA | 1-2 gg |
+| 8 | Alimentazione | Alimentatore USB-C 5V 5A | **15€** | [Amazon.it](https://www.amazon.it/s?k=usb-c+alimentatore+5v+5a) | 🔴 CRITICA | 1-2 gg |
+| 9 | Strumenti | Multimetro digitale | **18€** | [Amazon.it](https://www.amazon.it/s?k=multimetro+digitale) | 🟡 UTILE | 1-2 gg |
+| 10 | Strumenti | Set cacciaviti precisione | **10€** | [Amazon.it](https://www.amazon.it/s?k=cacciaviti+precisione) | 🟡 UTILE | 1-2 gg |
 
-**Cosa puoi fare con Fase 2**:
-✅ Installazione completa HyperMusa su Musa
-✅ Test Fase 1-4 da HARDWARE.md sezione 11:
-  - Fase 1: Auto ferma motore spento (1-2 giorni)
-  - Fase 2: Motore acceso (3-7 giorni)
-  - Fase 3: Test in movimento (1-2 settimane)
-  - Fase 4: Uso quotidiano (1-2 mesi)
+**TOTALE FASE 1**: **€159** (senza strumenti) / **€187** (con strumenti)
 
-**Durata Fase 2**: 2-3 mesi (test completo su veicolo)
+**💡 Note Fase 1**:
+- Puoi usare **monitor di casa** via HDMI (no display automotive necessario)
+- Alimentazione da **rete 220V** (no convertitore 12V automotive)
+- Test CAN in **modalità loopback** (no collegamento auto)
+- GPS non necessario per sviluppo (dati simulati)
+
+#### 📦 Come Ordinare Fase 1
+
+**1. Melopero.com** (Raspberry Pi + Case):
+```
+1. Vai su https://www.melopero.com/
+2. Aggiungi al carrello:
+   - Raspberry Pi 5 4GB (75€)
+   - Case Official Raspberry Pi 5 con ventola (18€)
+   Oppure case alternativo con ventola PWM attiva
+3. Spedizione: Standard Italia (5-7€, 3-5 gg lavorativi)
+4. ORDINA OGGI entro 15:00 → Partenza stesso giorno
+5. Arrivo stimato: 16-18 Dicembre (prima di Natale)
+```
+
+**⚠️ Festività**: Se ordini dopo 20 Dicembre, arrivo post-Natale (27-30 Dic)
+
+**2. Battery Atom.it** (MCP2515 CAN Module):
+```
+1. Vai su https://www.batteryatom.it/prodotto/mcp2515-can-bus-modul-tja1050-transceiver-5v-arduino-raspberry-pi/
+2. Aggiungi al carrello (10€)
+3. Spedizione: Corriere GLS (6€, 2-4 gg)
+4. Ordina oggi → Arrivo 15-17 Dicembre
+```
+
+**3. Amazon.it** (Tutto il resto):
+```
+1. Carrello unico Amazon:
+   - MicroSD SanDisk 64GB Extreme PRO A2 (20€)
+   - Relay 5V 1 canale (8€)
+   - Kit Dupont F-F 40 pezzi (5€)
+   - Cavo HDMI Micro→Standard (8€)
+   - Alimentatore USB-C 5V 5A (15€)
+   - [Opzionale] Multimetro (18€)
+   - [Opzionale] Cacciaviti (10€)
+
+2. Filtra: "Spedizione Amazon Prime"
+3. TOTALE: ~€56-84
+4. Spedizione gratuita >29€
+5. Arrivo: 13-14 Dicembre (1-2 giorni)
+```
+
+**💡 Tip Amazon**: Seleziona "Venduto e spedito da Amazon" per arrivo garantito
+
+#### 🎯 Milestone Fase 1
+
+Obiettivi tecnici da raggiungere con questi componenti:
+
+**Settimana 1** (13-20 Dicembre 2025):
+- ✅ Raspberry Pi assemblato e bootabile
+- ✅ Raspberry Pi OS Lite installato e configurato
+- ✅ Node.js 20 LTS installato
+- ✅ MCP2515 collegato via GPIO SPI
+- ✅ Test CAN loopback: `candump can0` funzionante
+- ✅ Relay module test GPIO wake interrupt
+
+**Settimana 2** (21-27 Dicembre 2025):
+- ✅ Repository HyperMusa clonato
+- ✅ Dipendenze installate (React, can-utils)
+- ✅ Simulatore CAN virtuale (`vcan0`) funzionante
+- ✅ UI HyperMusa avviabile in modalità demo
+- ✅ Test suspend/wake manuale Raspberry Pi
+- ✅ Daemon `hypermusa-power.service` implementato
+
+**27 Dicembre**: 🎯 **CHECKPOINT Fase 1**
+**Decision point**: Sistema stabile bench test? → Procedi Fase 2
+**Se problemi critici**: Risolvi prima di ordinare Fase 2
+
+#### 📍 Cosa Farai con Questi Componenti
+
+**Ambiente di sviluppo completo**:
+- Raspberry Pi funziona come "mini-server" su scrivania
+- Monitor casa connesso via HDMI (temporaneo, non automotive)
+- Alimentazione da presa elettrica 220V (no auto)
+- Sviluppo codice da laptop via SSH WiFi
+- Test CAN-Bus in modalità virtuale (no hardware auto necessario)
+
+**Workflow tipico giornata sviluppo**:
+```bash
+# Mattina: Avvia sistema
+ssh pi@hypermusa.local
+sudo systemctl start hypermusa-ui
+
+# Sviluppo: Modifica codice su laptop, push git
+# Raspberry Pi fa git pull e testa modifiche
+
+# Sera: Test standby mode
+sudo systemctl suspend  # Test manuale S3
+# Simula wake con GPIO 17
+```
+
+#### ⏸️ PAUSA dopo Fase 1
+
+**🚫 NON ordinare altro fino a**:
+- ✅ Tutti milestone Fase 1 completati
+- ✅ Sistema stabile per 48h consecutive
+- ✅ **Misurato cruscotto Lancia Musa** (CRITICO per Fase 2!)
+
+**Risparmio temporaneo**: **€202** (361€ - 159€)
+**Tempo di pausa**: ~2 settimane (test e sviluppo)
 
 ---
 
-### 🟢 Fase 3: Opzionali Upgrade Futuro (Budget ~40€)
+### 🟡 FASE 2: Installazione Auto
 
-**Quando ordinare**: DOPO 2+ mesi test Fase 2 completati con successo
+**Obiettivo**: Componenti per installare HyperMusa su Lancia Musa e test progressivi Fase 0-1-2
 
-**Componenti opzionali**:
-- ☐ Accelerometro MPU6050 (~7€) - Amazon.it
-  - Se vuoi: G-force display racing-style
-- ☐ Power bank 10.000mAh USB-C PD (~25€) - Amazon.it
-  - Per: UPS mode ridondante (solo se batteria auto vecchia >5 anni)
-  - ⚠️ Relay module già fornisce protezione batteria sufficiente
-- ☐ Cavo Add-a-Circuit per fusibili (~8€) - Amazon.it
-  - Per: Installazione permanente alimentazione nascosta
-- ☐ Batteria AGM 70Ah (~160€) - Se batteria originale degradata
-  - Solo se batteria >5 anni e autonomia <7 giorni
+**Quando ordinare**: 📆 **27 Dicembre 2025 - 3 Gennaio 2026** (SOLO dopo Fase 1 OK)
+**Arrivo stimato**: 30 Dicembre - 8 Gennaio (considerando Capodanno)
+**Budget Fase 2**: **€175**
 
-**Subtotale Fase 3**: **~40€** (componenti elettronici) / **~200€** (con batteria upgrade)
+#### Pre-requisiti Fase 2
+
+**⚠️ PRIMA di ordinare, DEVI aver completato**:
+
+- [ ] **Raspberry Pi assemblato e funzionante** (test bench passato)
+- [ ] **HyperMusa UI funziona** in modalità demo (simulatore CAN)
+- [ ] **MCP2515 testato** in loopback (cansend/candump OK)
+- [ ] **Suspend/wake funzionante** (test manuale systemctl suspend)
+- [ ] **Daemon power management** implementato e testato
+- [ ] **⚠️ CRITICO: Misurato cruscotto Lancia Musa** (vedi template sotto)
+
+**Se anche solo 1 checkbox non spuntata** → NON ordinare Fase 2, risolvi prima!
+
+#### Template Misure Cruscotto
+
+**STAMPA e COMPILA questo template prima di ordinare display**:
+
+```
+┌──────────────────────────────────────────────────────────┐
+│       MISURE CRUSCOTTO LANCIA MUSA 2009                  │
+│       (Da compilare PRIMA di ordinare Fase 2)            │
+├──────────────────────────────────────────────────────────┤
+│                                                          │
+│  📐 ZONA DISPLAY (sopra volante centrale):               │
+│                                                          │
+│  ├─ Larghezza massima disponibile: _______ cm           │
+│  │   (Da bordo sinistro a bordo destro cruscotto)       │
+│  │                                                      │
+│  ├─ Altezza massima disponibile: _______ cm             │
+│  │   (Da top cruscotto a top volante)                   │
+│  │                                                      │
+│  ├─ Profondità disponibile: _______ cm                  │
+│  │   (Spazio davanti a cruscotto, verso parabrezza)     │
+│  │                                                      │
+│  └─ Distanza da volante: _______ cm                     │
+│      (Per verificare non copre visuale strada)          │
+│                                                          │
+│  📸 FOTO OBBLIGATORIE:                                   │
+│  [ ] Foto 1: Vista frontale cruscotto (da sedile guida) │
+│  [ ] Foto 2: Vista dall'alto (sopra volante)            │
+│  [ ] Foto 3: Con template cartaceo 22.3×13.9cm          │
+│                                                          │
+│  🔧 VERIFICA ACCESSO:                                    │
+│  [ ] Porta OBD2 accessibile (sotto volante sx)          │
+│  [ ] Accendisigari funzionante (12V)                    │
+│  [ ] Spazio per cavi sotto cruscotto                    │
+│                                                          │
+└──────────────────────────────────────────────────────────┘
+
+📝 PROCEDURA MISURA:
+1. Siediti al posto guida Musa
+2. Usa metro a nastro flessibile
+3. Misura 3 volte ogni dimensione (margine ±2mm)
+4. Crea template cartaceo display 10.1": 22.3cm × 13.9cm
+5. Posiziona template su cruscotto (velcro temporaneo)
+6. Verifica:
+   - Non copre spie cruscotto originale
+   - Non ostruisce visuale strada
+   - Raggiungibile con mano senza sforzo
+7. Scatta 3 foto con template posizionato
+8. SOLO SE tutto OK → Procedi ordine Fase 2
+```
+
+**🚨 IMPORTANTE**: Se template cartaceo NON entra → **Considera display 7"** (alternative in tabella sotto)
+
+#### 🎯 Tabella Decisionale Display
+
+**Basata sulle TUE misure cruscotto**:
+
+| Larghezza Musa | Altezza Musa | Display Consigliato | Risoluzione | Prezzo | Note |
+|----------------|--------------|---------------------|-------------|--------|------|
+| **≥24cm** | **≥14cm** | **10.1" IPS** ✅ | 1920×1200 | **75€** | **Scelta default** |
+| 20-23cm | ≥11cm | 7" IPS | 1024×600 | 40€ | UI più compatta |
+| <20cm | qualsiasi | ❌ **Problema** | - | - | Musa troppo piccola, valuta tablet esterno |
+
+**Display 10.1" scelto (default)**:
+- **Dimensioni**: 22.3cm × 13.9cm × 0.8cm
+- **Peso**: ~350g
+- **Touch**: Capacitivo 10-point multi-touch
+- **Link**: [Amazon.it 10.1" 1920×1200](https://www.amazon.it/s?k=10.1+touch+1920x1200+ips)
+
+**Alternative display** (se misure diverse):
+- **7" IPS 1024×600**: 19.4cm × 11cm, 40€ - [Amazon.it](https://www.amazon.it/s?k=7+touch+1024x600)
+- **8" IPS 1280×800**: 20.1cm × 12.5cm, 55€ - [Amazon.it](https://www.amazon.it/s?k=8+touch+1280x800)
+
+#### Checklist Acquisti Fase 2
+
+| # | Componente | Modello | Prezzo | Fornitore | Priorità | Dipende da Misure |
+|---|------------|---------|--------|-----------|----------|-------------------|
+| 1 | Display | 10.1" IPS 1920×1200 Touch | **75€** | [Amazon.it](https://www.amazon.it/s?k=10.1+touch+1920x1200+ips) | 🔴 CRITICA | ✅ SÌ |
+| 2 | OBD2 | Splitter OBD2 a Y | **15€** | [Amazon.it](https://www.amazon.it/s?k=obd2+splitter+y) | 🔴 CRITICA | ❌ No |
+| 3 | Alimentazione | DC-DC 12V→5V 5A USB-C accendisigari | **20€** | [Amazon.it](https://www.amazon.it/s?k=12v+5v+5a+usb-c+auto) | 🔴 CRITICA | ❌ No |
+| 4 | Protezioni | Fusibili 3A + portafusibili inline ×2 | **10€** | Amazon.it / Brico | 🔴 CRITICA | ❌ No |
+| 5 | Cavi | Cavo USB-A → USB-B 1m (touch) | **5€** | [Amazon.it](https://www.amazon.it/s?k=usb+a+usb+b+cable) | 🔴 CRITICA | ❌ No |
+| 6 | Cavetteria | Guaina spiralata Ø10mm 3m nero | **8€** | [Amazon.it](https://www.amazon.it/s?k=guaina+spiralata+10mm) | 🟡 MEDIA | ❌ No |
+| 7 | Montaggio | Clips adesive Ø6-10mm 20pz | **5€** | Amazon.it / Brico | 🟡 MEDIA | ❌ No |
+| 8 | Montaggio | Velcro industriale 50mm×1m | **8€** | [Amazon.it](https://www.amazon.it/s?k=velcro+industriale) | 🟡 MEDIA | ❌ No |
+| 9 | Cavetteria | Fascette nylon 15cm 50pz | **3€** | Brico / Amazon | 🟡 MEDIA | ❌ No |
+| 10 | Protezione | Nastro isolante rotolo | **3€** | Brico | 🟡 MEDIA | ❌ No |
+| 11 | Extra | Cavo OBD2 → Relay (se serve estensione) | ~**18€** | [Amazon.it](https://www.amazon.it/s?k=obd2+cable+extension) | 🔵 OPZIONALE | ❌ No |
+
+**TOTALE FASE 2**: **€152** (componenti base) / **€175** (con opzionali cavi)
+
+**💡 Note Fase 2**:
+- Display è **58% del budget** Fase 2 → Misure precise CRITICHE!
+- Splitter OBD2 a Y mantiene porta libera per diagnosi ufficiale
+- DC-DC 12V→5V si collega ad accendisigari (massima reversibilità)
+- Fusibili proteggono da cortocircuiti (safety first!)
+
+#### 📦 Come Ordinare Fase 2
+
+**1. Amazon.it** (Tutto Fase 2 da un unico ordine):
+```
+1. Conferma misure cruscotto OK per display 10.1"
+2. Carrello Amazon unico:
+   - Display 10.1" Touch (75€) - VERIFICA compatibilità HDMI + USB touch
+   - Splitter OBD2 Y (15€)
+   - DC-DC 12V→5V 5A accendisigari (20€)
+   - Fusibili 3A + portafusibili (10€)
+   - Cavo USB-A → USB-B (5€)
+   - Guaina spiralata 3m (8€)
+   - Clips + Velcro + Fascette + Isolante (19€)
+
+3. Filtra: "Amazon Prime" per spedizione veloce
+4. TOTALE: ~€152-175
+5. Arrivo: 1-3 giorni (evita 24-26 Dic, 31 Dic-1 Gen)
+```
+
+**⚠️ Festività Capodanno**: Se ordini 30 Dic → Arrivo 3-6 Gennaio
+
+**2. Brico locale** (Alternativa per cavetteria):
+```
+- Clips + Fascette + Nastro isolante: ~10€
+- Vantaggio: Acquisto immediato, tocchi materiali
+- Risparmio spedizione Amazon minore
+```
+
+#### 🎯 Milestone Fase 2
+
+**Settimana 1** (30 Dic - 5 Gen):
+- ✅ Display ricevuto e testato su Raspberry Pi (HDMI + USB touch)
+- ✅ Convertitore 12V→5V testato con multimetro (verifica 5V stabili)
+- ✅ Splitter OBD2 collegato a Musa (nessuna spia errore)
+- ✅ MCP2515 legge traffico CAN reale Musa (Fase 0 test)
+
+**Settimana 2-3** (6-19 Gen):
+- ✅ Test Fase 1: Motore acceso, HyperMusa legge RPM/velocità/temp
+- ✅ Test Fase 2: In movimento con passeggero che monitora (10-50 km/h)
+- ✅ Standby mode testato su auto (chiave OFF → suspend, chiave MAR → wake 3-5s)
+- ✅ Nessuna interferenza con Musa (no spie errore, OBD2 scanner funziona)
+
+**19 Gennaio 2026**: 🎯 **CHECKPOINT Fase 2**
+**Decision point**: Sistema stabile su auto? → Valuta Fase 3 opzionali
+**Se problemi**: Risolvi, NON investire in opzionali
+
+#### 📍 Cosa Farai con Questi Componenti
+
+**Installazione test progressiva** (come da HARDWARE.md sezione 11):
+
+**Fase 0** (Bench test con componenti auto):
+- Collega display a Raspberry Pi (verifica HDMI + touch)
+- Test convertitore 12V→5V con batteria auto esterna (NO montato su Musa)
+- Verifica tutto funziona PRIMA di installare su auto
+
+**Fase 1** (Auto ferma, motore spento, 1-2 giorni):
+- Collega splitter OBD2 a porta Musa
+- Collega MCP2515 a OBD2 (solo CAN-H, CAN-L, GND)
+- Alimentazione Raspberry Pi da laptop/powerbank (NO auto)
+- Verifica traffico CAN: `candump can0`
+- ✅ Obiettivo: Leggere CAN senza interferire
+
+**Fase 2** (Motore acceso, auto ferma, 3-7 giorni):
+- Alimentazione da convertitore 12V→5V collegato ad accendisigari
+- Test standby: chiave OFF → suspend, chiave MAR → wake
+- Monitoraggio RPM, temperatura motore, voltaggio batteria
+- ✅ Obiettivo: Sistema stabile con motore acceso 30+ minuti
+
+**Fase 3** (In movimento, 1-2 settimane):
+- Passeggero monitora HyperMusa durante guida
+- Test velocità 10-90 km/h, accelerazioni, frenate
+- Verifica dati CAN accurati vs quadro originale
+- ✅ Obiettivo: Dati real-time precisi, nessun lag
+
+#### ⏸️ PAUSA dopo Fase 2
+
+**🚫 NON ordinare Fase 3 fino a**:
+- ✅ Test Fase 0-1-2-3 completati con successo
+- ✅ Sistema usato quotidianamente per 1+ settimana senza problemi
+- ✅ Batteria Musa NON si scarica (autonomia standby 7+ giorni verificata)
+- ✅ Nessuna spia errore Musa comparsa
+
+**Risparmio temporaneo**: **€27** (opzionali Fase 3)
+**Tempo di pausa**: ~1-2 mesi (uso quotidiano e raccolta feedback)
+
+---
+
+### 🟢 FASE 3: Sensori Opzionali
+
+**Obiettivo**: Features extra nice-to-have per arricchire esperienza HyperMusa
+
+**Quando ordinare**: 📆 **Febbraio-Marzo 2026** (SOLO se Fase 2 OK e sistema stabile)
+**Arrivo stimato**: 3-5 giorni
+**Budget Fase 3**: **€18-27** (sensori selezionati)
+
+#### Pre-requisiti Fase 3
+
+**⚠️ PRIMA di ordinare, DEVI aver verificato**:
+
+- [ ] **Sistema usato quotidianamente** per 1+ mese senza problemi critici
+- [ ] **Batteria auto OK**: Autonomia standby 7+ giorni confermata
+- [ ] **Nessuna spia errore Musa** comparsa
+- [ ] **Test Fase 0-1-2-3** tutti superati
+- [ ] **Decisione di continuare** con HyperMusa (non abbandonare progetto)
+
+**Se dubbi o problemi** → NON ordinare opzionali, sistema base è già completo!
+
+#### Valutazione Sensori Opzionali
+
+**GPS USB VK-162 u-blox** (~18€):
+
+✅ **Ordina se**:
+- Vuoi **navigazione integrata** nella UI (futuro)
+- Vuoi **trip computer** accurato (distanza percorsa, velocità media)
+- Vuoi **logging percorsi** GPS per analisi offline
+- Vuoi **velocità GPS** come backup/verifica vs velocità CAN
+
+❌ **Salta se**:
+- Usi già Google Maps/Waze su smartphone montato
+- Non ti interessa tracking percorsi
+- Velocità CAN è sufficiente
+
+**Valore aggiunto**: 🟢 **ALTO** (18€ per funzionalità molto utili)
+**Raccomandazione**: ✅ **SÌ, ordina** se budget lo permette
+
+**Link**: [Amazon.it VK-162 GPS](https://www.amazon.it/s?k=vk-162+gps+usb)
+**Installazione**: Plug USB, driver NMEA automatico `/dev/ttyUSB0`
+
+---
+
+**Accelerometro MPU6050** (~7€):
+
+✅ **Ordina se**:
+- Vuoi **G-force display** racing-style (accelerazioni laterali/longitudinali)
+- Ti piace **estetica sportiva** da sim-racing
+- Vuoi **dati telemetria** per track day/guida sportiva
+
+❌ **Salta se**:
+- Uso Musa quotidiano normale (no track day)
+- Preferisci UI minimalista senza fronzoli
+- Non vuoi complessità setup aggiuntiva (richiede calibrazione)
+
+**Valore aggiunto**: 🟡 **MEDIO** (feature cool ma non essenziale)
+**Raccomandazione**: 🤷 **Forse** - Ordina solo se appassionato motorsport
+
+**Link**: [Amazon.it MPU6050](https://www.amazon.it/s?k=mpu6050+accelerometer)
+**Installazione**: I2C GPIO, richiede calibrazione e codice custom
+
+---
+
+**Sensore Temperatura DHT22** (~5€):
+
+❌ **NON ordinare** - Ridondante!
+
+**Motivazione**:
+- Temperatura motore già disponibile via **CAN-Bus** (PID 0x05)
+- Temperatura abitacolo NON critica per quadro strumenti
+- Aggiunge complessità senza valore
+
+**Valore aggiunto**: 🔴 **BASSO/NULLO**
+**Raccomandazione**: ❌ **NO, salta completamente**
+
+---
+
+**Power Bank Backup 10.000mAh USB-C PD** (~25€):
+
+✅ **Ordina se**:
+- Batteria Musa ha **>5 anni** e capacità ridotta
+- Usi sistema con **motore spento per ore** (es. ufficio mobile)
+- Vuoi **UPS mode** per shutdown sicuro batteria critica
+- Temperatura estreme **<-10°C** inverno riducono capacità batteria
+
+❌ **Salta se**:
+- Batteria Musa recente (<3 anni) con capacità normale
+- Uso normale (motore acceso durante guida, standby quando parcheggi)
+- Relay module + software protection già proteggono batteria (shutdown <11.5V)
+
+**Valore aggiunto**: 🟡 **MEDIO** (ridondanza utile solo in casi specifici)
+**Raccomandazione**: 🤷 **Forse** - Solo se batteria auto vecchia/problematica
+
+**Link**: [Amazon.it Power Bank USB-C PD](https://www.amazon.it/s?k=power+bank+10000mah+usb-c+pd)
+**Installazione**: Richiede circuito switching automatico 12V/5V (complesso)
+
+---
+
+#### Checklist Acquisti Fase 3
+
+**Configurazione raccomandata** (basata su analisi costo/beneficio):
+
+| # | Componente | Prezzo | Valore | Raccomandazione | Link |
+|---|------------|--------|--------|-----------------|------|
+| 1 | **GPS VK-162** | **18€** | 🟢 ALTO | ✅ **SÌ** | [Amazon.it](https://www.amazon.it/s?k=vk-162+gps) |
+| 2 | Accelerometro MPU6050 | 7€ | 🟡 MEDIO | 🤷 Solo se motorsport | [Amazon.it](https://www.amazon.it/s?k=mpu6050) |
+| 3 | ❌ DHT22 | ~5€ | 🔴 NULLO | ❌ NO | - |
+| 4 | Power Bank 10Ah | 25€ | 🟡 MEDIO | 🤷 Solo se batteria vecchia | [Amazon.it](https://www.amazon.it/s?k=power+bank+usb-c+pd) |
+
+**Budget Fase 3**:
+- **Minimo** (solo GPS): **18€**
+- **Medio** (GPS + MPU6050): **25€**
+- **Massimo** (GPS + MPU6050 + Power Bank): **50€**
+
+**💡 Raccomandazione**: Ordina **solo GPS** (18€) - Miglior ROI
+
+#### 🎯 Milestone Fase 3
+
+**Dopo installazione GPS** (~1 settimana):
+- ✅ GPS fix acquisito (<60s cold start)
+- ✅ Velocità GPS visualizzata in UI
+- ✅ Trip computer funzionante (distanza, tempo viaggio)
+- ✅ Logging percorsi attivo (file GPX salvati)
+
+**Dopo installazione MPU6050** (se ordinato, ~1 settimana):
+- ✅ Calibrazione sensore completata
+- ✅ G-force display in UI (laterale + longitudinale)
+- ✅ Valori realistici durante guida (±1.0g frenata/accelerazione)
+
+#### ⏸️ PAUSA dopo Fase 3
+
+**Sistema HyperMusa completo e funzionale** ✅
+**Uso quotidiano stabile per 2+ mesi** prima di considerare Fase 4
+
+**Fase 4 è OPZIONALE** - Necessaria solo se decidi installazione permanente
+
+---
+
+### 🔵 FASE 4: Upgrade Definitivi (OPZIONALE)
+
+**Obiettivo**: Installazione permanente professionale e upgrade per uso pluriennale
+
+**Quando ordinare**: 📆 **Aprile 2026 o dopo** (SOLO se sistema usato 2+ mesi senza problemi)
+**Arrivo stimato**: Variabile (1-7 giorni)
+**Budget Fase 4**: **€40-200+** (upgrade selezionati)
+
+#### Pre-requisiti Fase 4
+
+**⚠️ PRIMA di ordinare, DEVI aver verificato**:
+
+- [ ] **Sistema usato quotidianamente per 2+ mesi** senza problemi
+- [ ] **Decisione di rendere installazione PERMANENTE** (accetti perdita reversibilità parziale)
+- [ ] **Nessuna spia errore Musa** in 2+ mesi uso
+- [ ] **Soddisfatto di HyperMusa** e vuoi mantenerlo a lungo termine
+
+**Se dubbi** → NON ordinare Fase 4! Configurazione Fase 2-3 è già ottima per uso quotidiano.
+
+#### Componenti Upgrade Fase 4
+
+**Montaggio Permanente**:
+
+| Componente | Prezzo | Scopo | Quando Ordinare |
+|------------|--------|-------|-----------------|
+| Biadesivo 3M VHB | 10€ | Montaggio display permanente (vs velcro) | Se sicuro di posizione display |
+| Add-a-Circuit fusibili | 8€ | Alimentazione nascosta da fusibili (vs accendisigari) | Se vuoi estetica professionale |
+| Case custom 3D printed | 20-40€ | Case Raspberry Pi integrato in cruscotto | Se hai stampante 3D / maker space |
+
+**TOTALE Montaggio**: **18-58€**
+
+---
+
+**Upgrade Batteria Auto** (se necessario):
+
+| Modello | Capacità | Prezzo | Quando Ordinare |
+|---------|----------|--------|-----------------|
+| Bosch S5 A08 AGM 70Ah | 70Ah | ~160€ | Se batteria originale >5 anni o capacità <7 giorni standby |
+| Bosch S5 A09 AGM 80Ah | 80Ah | ~180€ | Se uso intenso motore spento (ufficio mobile) |
+
+**💡 Nota batteria**: Upgrade solo se batteria originale degradata. Con standby mode, 60Ah stock è sufficiente.
+
+---
+
+**Opzionali Estetici/Funzionali**:
+
+| Componente | Prezzo | Scopo |
+|------------|--------|-------|
+| Cavo OBD2 custom length | 15-25€ | Lunghezza esatta per installazione pulita |
+| Guaina intrecciata premium | 12€ | Estetica professionale cavi |
+| LED status custom | 5-10€ | Indicatori visivi HyperMusa (power, CAN, GPS) |
+| Pulsante fisico shutdown | 8€ | Shutdown manuale elegante (vs SSH command) |
+
+---
+
+#### Budget Fase 4 Possibili
+
+**Scenario 1: Solo montaggio permanente** (18-58€)
+- Biadesivo + Add-a-Circuit + Optional case custom
+- Installazione più pulita, ma stessa funzionalità
+
+**Scenario 2: Montaggio + Batteria upgrade** (178-238€)
+- Se batteria auto vecchia e vuoi tranquillità pluriennale
+- Investimento significativo ma giustificato se Musa daily driver
+
+**Scenario 3: Full professional** (200-300€)
+- Tutto: Montaggio permanente + Batteria + Estetici
+- HyperMusa come se fosse OEM factory-installed
+
+**💡 Raccomandazione**: Valuta Scenario 1 solo se veramente necessario. Velcro e accendisigari funzionano benissimo per anni.
+
+---
+
+## 💰 Riepilogo Budget Temporale
+
+| Fase | Quando | Cosa Include | Budget | Cumulativo | % Totale | Status Progetto |
+|------|--------|--------------|--------|------------|----------|-----------------|
+| **Fase 1** | **12 Dic 2025** | Setup sviluppo bench test | **€159** | **€159** | **44%** | Sviluppo senza auto |
+| **Fase 2** | **27 Dic - 3 Gen** | Installazione auto + test | **€175** | **€334** | **93%** | Sistema completo funzionante |
+| **Fase 3** | **Feb-Mar 2026** | GPS opzionale | **€18** | **€352** | **98%** | Features extra |
+| **Fase 4** | **Apr 2026+** | Upgrade permanenti | **€40-200** | **€392-552** | **109-153%** | Installazione definitiva |
+
+**📊 Analisi Budget Progressivo**:
+
+```
+Approccio Tradizionale (tutto subito):
+└─ €361 oggi → Rischio €361 se progetto fallisce
+
+Approccio Progressivo HyperMusa:
+├─ €159 Fase 1 → Rischio contenuto
+├─ €175 Fase 2 → Solo se Fase 1 OK
+├─ €18 Fase 3 → Solo se Fase 2 OK
+└─ €200 Fase 4 → Solo se sistema perfetto 2+ mesi
+
+Risparmio rischio iniziale: -56% (€159 vs €361)
+```
+
+**💡 Vantaggi approccio progressivo**:
+
+✅ **Investimento iniziale ridotto**: €159 invece di €361 (-56%)
+✅ **Validazione step-by-step**: Fermi se Fase 1 problematica (risparmi €202)
+✅ **Distribuzione costi**: 4 mesi invece di tutto oggi
+✅ **Flessibilità**: Puoi fermarti a Fase 2 (sistema completo a €334)
+✅ **Tempo per valutare**: 2+ mesi uso prima di permanente
+✅ **Possibilità uscita**: Fase 1-2 reversibili al 100%
+
+**📈 ROI per Fase**:
+
+| Fase | Investimento | Valore Aggiunto | ROI |
+|------|--------------|-----------------|-----|
+| Fase 1 | €159 | Ambiente sviluppo + skill learning | 🟢 ALTO |
+| Fase 2 | €175 | Sistema automotive funzionante | 🟢 ALTISSIMO |
+| Fase 3 | €18 | GPS navigation + trip computer | 🟢 ALTO |
+| Fase 4 | €200+ | Estetica + longevità (opzionale) | 🟡 MEDIO |
+
+**🎯 Raccomandazione Finale**:
+
+**Minimo viabile**: Fase 1 + Fase 2 = **€334** → Sistema HyperMusa completo e daily-driver
+**Ottimale**: + Fase 3 GPS = **€352** → Features premium con budget contenuto
+**Permanente**: + Fase 4 montaggio = **€392** → Installazione professionale
+
+**NON serve spendere €561** (con batteria upgrade) a meno che Musa sia auto pluridecennale.
 
 ---
 
