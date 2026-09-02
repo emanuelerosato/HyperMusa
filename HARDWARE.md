@@ -1170,26 +1170,62 @@ Porta OBD2 Musa ──► [Splitter Y] ──┬──► Uscita 1: Diagnosi/Sca
 
 ## 🛡️ 11. Installazione Non Invasiva e Reversibilità
 
+> ### ⚠️ REVISIONE 02/09/2026 — impostazione a doppio display
+>
+> Questa sezione descriveva un sistema **puramente additivo**: un display appoggiato in plancia,
+> quadro originale intatto e visibile, tutto smontabile in cinque minuti.
+>
+> **Il progetto è passato al doppio display**: schermo centrale in plancia **+ sostituzione visiva
+> del quadro strumenti** dietro il volante. Cosa cambia:
+>
+> - ✅ **Resta vero**: sola lettura sul CAN, nessun cavo tagliato, nessuna centralina toccata,
+>   reversibilità totale, quadro originale elettricamente sempre attivo.
+> - ❌ **Non è più vero**: il "plug & play". Si smonta la plancia e si lavora dietro il volante.
+> - 🔓 **Aperto**: quale delle tre architetture di montaggio (svuotamento / rilocazione /
+>   sovrapposizione), decisa dal rilievo dimensionale ancora da fare.
+>
+> Analisi completa e criterio di decisione: **wiki → `sviluppo/hypermusa/`**.
+
 ### Filosofia del Progetto HyperMusa
 
-**HyperMusa è progettato per essere 100% REVERSIBILE senza lasciare tracce.**
+**HyperMusa è REVERSIBILE: ogni modifica si può annullare riportando l'auto allo stato originale.**
+
+Reversibile non significa più "non invasivo": il quadro strumenti viene smontato. Significa che
+nulla di ciò che facciamo è **distruttivo o permanente** sul veicolo.
 
 #### ✅ Cosa NON Faremo MAI
 
 - ❌ Tagliare cavi originali della Musa
-- ❌ Forare cruscotto o plastiche
+- ❌ Forare o modificare irreversibilmente cruscotto e plastiche
 - ❌ Modificare centraline o Body Computer
 - ❌ Scrivere dati sul CAN-Bus (solo LETTURA)
 - ❌ Bypassare sistemi di sicurezza
-- ❌ Sostituire il quadro strumenti originale
+- ❌ **Scollegare o eliminare il quadro strumenti originale**
 
 #### ✅ Cosa Faremo
 
 - ✅ Collegamento OBD2 con splitter (plug & play)
-- ✅ Alimentazione da accendisigari (removibile)
-- ✅ Display montato con velcro o biadesivo removibile
 - ✅ Solo LETTURA dati CAN-Bus (come scanner diagnosi)
-- ✅ Quadro originale rimane completamente funzionante
+- ✅ **Quadro originale sempre collegato, alimentato e attivo sul bus** — nascosto, non rimosso
+- ✅ Mascherina stampata in 3D che riusa i punti di fissaggio originali
+- ✅ Prove e smontaggi su un **secondo quadro di recupero**, non su quello dell'auto
+
+#### 🔌 Perché il quadro non si elimina mai
+
+Il quadro strumenti della Musa **non è un display: è un nodo CAN**. Contiene o gestisce:
+
+- le **spie di sicurezza obbligatorie** (airbag, ABS, freni)
+- il **contachilometri certificato** (revisione, valore del veicolo, perizie)
+- il dialogo continuo col Body Computer
+
+Se sparisce dal bus, il Body Computer memorizza errori e accende spie altrove. Per questo in tutte
+e tre le architetture il quadro **resta elettricamente vivo**: cambia solo dove si trova fisicamente
+e se lo si vede.
+
+> ℹ️ **Nota positiva verificata (02/09/2026)**: su Musa/Idea l'antenna toroidale e la centralina
+> Fiat CODE stanno sul **piantone dello sterzo**, non dentro il quadro. Smontare il quadro non
+> compromette l'avviamento — a differenza di molte FCA coeve. Indizio da forum Viva Lancia,
+> **da confermare sul pezzo prima di toccare l'auto**.
 
 ---
 

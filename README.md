@@ -11,7 +11,10 @@ Progetto derivato da [Cyberpandino](https://github.com/cyberpandino/cluster).
 
 ## ✨ Features
 
+- **Doppio display**: quadro strumenti digitale dietro il volante + schermo centrale in plancia
 - **Quadro strumenti digitale 3D** con interfaccia moderna
+- **Quadro originale mai eliminato**: resta collegato e attivo sul CAN-Bus (spie di sicurezza e
+  contachilometri certificato restano operativi) — vedi [§11 di HARDWARE.md](HARDWARE.md)
 - **Lettura dati CAN-Bus nativo** ISO 15765-4 in tempo reale
 - **Display touch screen** ad alta risoluzione
 - **Integrazione con sensori originali** del veicolo via CAN
@@ -137,9 +140,16 @@ Vedi [Architettura Completa](ARCHITECTURE.md) per dettagli *(in sviluppo)*.
 - [x] Documentazione iniziale
 
 ### 🚧 Fase 2: Migrazione Core (In corso)
+
+**Bloccante corrente — rilievo dimensionale**: l'integrazione del quadro digitale dipende da misure
+che non abbiamo ancora. Nessun componente si acquista prima (unica eccezione: un quadro strumenti
+di recupero, che *è* lo strumento del rilievo).
+
+- [ ] **Acquisto quadro strumenti Musa di recupero** (30-60 € da demolitore)
+- [ ] **Rilievo dimensionale** → decide l'architettura di montaggio e il display definitivo
 - [ ] Importazione codice base
 - [ ] Adattamento CAN-Bus nativo Musa
-- [ ] Mappatura PID ISO 15765-4
+- [ ] Mappatura PID ISO 15765-4 *(non bloccato: si lavora dalla presa OBD2, auto intatta)*
 - [ ] Test integrazione OBD2
 
 ### 📋 Fase 3: Testing (Pianificata)
